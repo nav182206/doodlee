@@ -6,9 +6,11 @@ type View = 'home' | 'music' | 'gallery' | 'moments' | 'message' | 'voices';
 interface NavProps {
   activeView: View;
   setView: (v: View) => void;
+  editMode: boolean;
+  setEditMode: (e: boolean) => void;
 }
 
-const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
+const Navigation: React.FC<NavProps> = ({ activeView, setView, editMode, setEditMode }) => {
   const navItems: { id: View; label: string; icon: string }[] = [
     { id: 'home', label: 'Welcome', icon: '🏠' },
     { id: 'gallery', label: 'Pictures', icon: '📸' },
@@ -21,7 +23,7 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <nav className="hidden md:flex flex-col w-64 bg-white/40 backdrop-blur-xl border-r border-rose-100 p-8 space-y-10 shrink-0">
+      <nav className="hidden md:flex flex-col w-64 bg-white/40 backdrop-blur-xl border-r border-rose-100 p-8 space-y-10 shrink-0 relative">
         <div className="text-center">
           <div className="text-3xl mb-2">🌸</div>
           <h1 className="font-serif-elegant font-bold text-rose-600 text-xl">Birthday Edition</h1>
@@ -44,8 +46,21 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
           ))}
         </div>
 
-        <div className="mt-auto pt-10 text-center">
-          <p className="text-[10px] uppercase tracking-widest text-rose-300 font-bold">Made for you with love</p>
+        <div className="mt-auto space-y-6">
+          {/* Admin Toggle */}
+          <button 
+            onClick={() => setEditMode(!editMode)}
+            className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl border-2 transition-all ${
+              editMode ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-gray-100 border-transparent text-gray-400'
+            }`}
+          >
+            <span className="text-xs font-black uppercase tracking-widest">{editMode ? 'Edit Mode' : 'Locked'}</span>
+            <span>{editMode ? '🔓' : '🔒'}</span>
+          </button>
+          
+          <div className="text-center">
+            <p className="text-[10px] uppercase tracking-widest text-rose-300 font-bold">Made for Sweeta 💙</p>
+          </div>
         </div>
       </nav>
 

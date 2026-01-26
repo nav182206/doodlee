@@ -2,13 +2,8 @@
 import { Photo } from './types';
 
 export const PHOTOS: Photo[] = [
-  // --- CHILDHOOD (6 SLOTS) ---
-  { url: "child_1", category: "Childhood", caption: "The Video Call Flex 💪", secretMessage: "My champion since day one. 💙" },
-  { url: "child_2", category: "Childhood", caption: "Goofy Partners 😜", secretMessage: "Nobody makes me laugh like you do. 💙" },
-  { url: "child_3", category: "Childhood", caption: "Traditional Beauty ✨", secretMessage: "A literal queen in every lifetime. 👑" },
-  { url: "child_4", category: "Childhood", caption: "Rockstar Vibes 🎧", secretMessage: "Coolest girl in the room, always. 💙" },
-  { url: "child_5", category: "Childhood", caption: "The Best Angle 👅", secretMessage: "I love your wild side! 💙" },
-  { url: "child_6", category: "Childhood", caption: "Pure Innocence 🌸", secretMessage: "This smile is my favorite thing in the world. 💙" },
+  // --- CHILDHOOD (1 FEATURED SLOT) ---
+  { url: "childhood_hero", category: "Childhood", caption: "My Favorite Childhood Memory 🌸", secretMessage: "The most precious little soul I've ever known. 💙" },
 
   // --- GROWING YEARS (6 SLOTS) ---
   { url: "grow_1", category: "Growing Years", caption: "Finding Your Path 🚶‍♀️", secretMessage: "Watching you grow is my greatest joy. 💙" },
