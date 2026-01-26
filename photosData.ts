@@ -3,7 +3,7 @@ import { Photo } from './types';
 
 export const PHOTOS: Photo[] = [
   // Childhood - 6 Photos
-  { url: "https://picsum.photos/seed/child1/800/1000", category: "Childhood", caption: "The beginning of your beautiful story.", secretMessage: "I wish I could protect this smile forever. 🥺" },
+  { url: "C:\Users\suria\OneDrive\Pictures", category: "Childhood", caption: "The beginning of your beautiful story.", secretMessage: "I wish I could protect this smile forever. 🥺" },
   { url: "https://picsum.photos/seed/child2/800/1000", category: "Childhood", caption: "Always a little explorer." },
   { url: "https://picsum.photos/seed/child3/800/1000", category: "Childhood", caption: "That sweet smile hasn't changed." },
   { url: "https://picsum.photos/seed/child4/800/1000", category: "Childhood", caption: "Little steps, big dreams." },
