@@ -1,0 +1,8 @@
+{
+  "name": "Birthday Blossom: A Romantic Journey",
+  "description": "A deeply personalized, interactive birthday experience featuring music, categorized photo galleries, a timeline of core moments, and an AI-powered love letter generator.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
