@@ -1,105 +1,295 @@
 
-import React, { useState } from 'react';
-import { SONGS } from '../songsData';
+import React, { useState, useEffect } from 'react';
+import { Song } from '../types';
+
+const SLOT_COUNT = 18;
 
 const Music: React.FC = () => {
-  const [activeSong, setActiveSong] = useState(0);
+  // Initialize 18 empty slots
+  const [songs, setSongs] = useState<(Song | null)[]>(Array(SLOT_COUNT).fill(null));
+  const [activeIdx, setActiveIdx] = useState<number>(0);
+  const [editingIdx, setEditingIdx] = useState<number | null>(null);
+  const [tempUrl, setTempUrl] = useState('');
+  const [error, setError] = useState('');
+
+  // Sync with Local Storage
+  useEffect(() => {
+    const saved = localStorage.getItem('sweeta_birthday_18_tracks');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        const validated = Array(SLOT_COUNT).fill(null).map((_, i) => parsed[i] || null);
+        setSongs(validated);
+        
+        // Find first available song to set as active initially
+        const firstFilled = validated.findIndex(s => s !== null);
+        if (firstFilled !== -1) setActiveIdx(firstFilled);
+      } catch (e) {
+        console.error("Storage error", e);
+      }
+    }
+  }, []);
+
+  const saveTracks = (updated: (Song | null)[]) => {
+    setSongs(updated);
+    localStorage.setItem('sweeta_birthday_18_tracks', JSON.stringify(updated));
+  };
+
+  const getEmbedUrl = (url: string) => {
+    if (!url) return null;
+    // Handle already embedded links
+    if (url.includes('spotify.com/embed')) return url;
+    
+    // Extract ID from various Spotify URL formats (track, playlist, album)
+    const match = url.match(/spotify\.com\/(track|playlist|album|artist)\/([a-zA-Z0-9]+)/);
+    if (match) {
+      const type = match[1];
+      const id = match[2];
+      return `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
+    }
+    return null;
+  };
+
+  const handleAddSong = () => {
+    const embed = getEmbedUrl(tempUrl);
+    if (!embed || editingIdx === null) {
+      setError('Please enter a valid Spotify Link');
+      setTimeout(() => setError(''), 3000);
+      return;
+    }
+
+    const newSong: Song = {
+      id: `track-${editingIdx}-${Date.now()}`,
+      title: `Track #${editingIdx + 1}`,
+      artist: "Selected for You",
+      cover: `https://picsum.photos/seed/${editingIdx}/400/400`, // Placeholder cover
+      spotifyUrl: embed
+    };
+
+    const updated = [...songs];
+    updated[editingIdx] = newSong;
+    saveTracks(updated);
+    
+    setTempUrl('');
+    setEditingIdx(null);
+    setActiveIdx(editingIdx);
+  };
+
+  const removeTrack = (idx: number) => {
+    const updated = [...songs];
+    updated[idx] = null;
+    saveTracks(updated);
+  };
+
+  const activeSong = songs[activeIdx];
 
   return (
-    <div className="w-full">
-      <div className="flex items-center gap-4 mb-10">
-        <div className="w-12 h-12 bg-rose-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">🎵</div>
-        <div>
-          <h2 className="text-3xl font-serif-elegant font-bold text-gray-900">Our Soundtrack</h2>
-          <p className="text-rose-400 font-medium">Melodies that hold our history</p>
+    <div className="w-full max-w-7xl mx-auto space-y-12 pb-32 px-4 md:px-0">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-8 border-b border-green-100 pb-12">
+        <div className="flex items-center gap-6">
+          <div className="relative">
+            <div className="w-20 h-20 bg-green-500 rounded-[2.5rem] flex items-center justify-center text-white text-4xl shadow-2xl shadow-green-200">
+              <span className="animate-pulse">📻</span>
+            </div>
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center text-xs font-black text-green-600 shadow-lg border border-green-50">
+              18
+            </div>
+          </div>
+          <div>
+            <h2 className="text-5xl font-serif-elegant font-bold text-gray-900 tracking-tight">The Soundtrack of Us</h2>
+            <p className="text-green-600 font-medium italic mt-1">18 songs, 18 memories, one love 💙</p>
+          </div>
+        </div>
+        
+        <div className="hidden lg:flex items-center gap-2">
+          <div className="px-6 py-3 bg-white border border-green-100 rounded-full text-xs font-bold uppercase tracking-widest text-green-400">
+            {songs.filter(s => s !== null).length} / 18 Slots Filled
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-col xl:flex-row gap-10 bg-white/40 backdrop-blur-2xl p-8 lg:p-12 rounded-[3.5rem] shadow-2xl border border-white/60">
-        {/* Left: Current Song Display */}
-        <div className="xl:w-5/12 flex flex-col items-center justify-center space-y-10 xl:border-r border-rose-100/50 xl:pr-12">
-          <div className="relative w-full max-w-sm aspect-square group">
-            <div className="absolute inset-0 bg-rose-400 rounded-[3rem] rotate-3 group-hover:rotate-6 transition-transform duration-700 shadow-2xl opacity-10"></div>
-            <img 
-              src={SONGS[activeSong].cover} 
-              alt="Cover" 
-              className="relative w-full h-full object-cover rounded-[3rem] shadow-2xl border-8 border-white"
-            />
-            <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-rose-500 text-white rounded-full flex items-center justify-center shadow-2xl animate-pulse">
-              <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <div className="flex flex-col lg:flex-row gap-12">
+        {/* Main Stage: The Active Player */}
+        <div className="lg:w-2/3 space-y-8">
+          <div className="relative group">
+            {/* Glossy Backdrop */}
+            <div className="absolute inset-0 bg-gradient-to-br from-green-100/50 to-blue-100/50 blur-[100px] opacity-40 -z-10 rounded-full"></div>
+            
+            <div className="bg-white rounded-[4rem] p-6 shadow-2xl border-4 border-white overflow-hidden transition-all duration-500 hover:shadow-green-100/50">
+              {activeSong ? (
+                <div className="space-y-6">
+                  <iframe 
+                    src={activeSong.spotifyUrl} 
+                    width="100%" 
+                    height="380" 
+                    frameBorder="0" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                    className="rounded-[3rem] shadow-sm"
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="h-[380px] flex flex-col items-center justify-center bg-gray-50 rounded-[3rem] border-4 border-dashed border-gray-100 group-hover:border-green-200 transition-colors">
+                  <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-4xl shadow-lg mb-6 group-hover:scale-110 transition-transform">🎧</div>
+                  <p className="font-serif-elegant italic text-2xl text-gray-400">Select a memory from your 18 slots</p>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="text-center w-full space-y-8">
-            <div>
-              <h3 className="text-4xl font-serif-elegant font-bold text-gray-900 leading-tight">{SONGS[activeSong].title}</h3>
-              <p className="text-rose-500 font-bold text-xl uppercase tracking-widest mt-2">{SONGS[activeSong].artist}</p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="h-2 bg-rose-50 rounded-full overflow-hidden">
-                <div className="h-full bg-rose-500 w-2/3 rounded-full shadow-[0_0_15px_rgba(225,29,72,0.4)]"></div>
-              </div>
-              <div className="flex justify-between text-xs font-black text-rose-300 uppercase tracking-widest">
-                <span>02:45</span>
-                <span>04:12</span>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center gap-10">
-              <button className="text-rose-200 hover:text-rose-500 transition-colors p-2">
-                <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M6 18V6h2v12H6zm3.5-6L18 18V6l-8.5 6z"/></svg>
-              </button>
-              <button className="w-24 h-24 bg-rose-500 text-white rounded-full flex items-center justify-center shadow-[0_20px_40px_-10px_rgba(225,29,72,0.5)] hover:scale-110 active:scale-95 transition-all">
-                <svg className="w-12 h-12 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              </button>
-              <button className="text-rose-200 hover:text-rose-500 transition-colors p-2">
-                <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M16 18h2V6h-2v12zM6 18l8.5-6L6 6v12z"/></svg>
-              </button>
-            </div>
+          {/* Player Info bar */}
+          <div className="flex items-center justify-between p-8 bg-white/60 backdrop-blur-xl rounded-[3rem] border border-white shadow-xl">
+             <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-green-50 rounded-[1.5rem] flex items-center justify-center text-green-500 font-black text-2xl">
+                  {activeIdx + 1}
+                </div>
+                <div>
+                   <h3 className="text-2xl font-serif-elegant font-bold text-gray-800">
+                     {activeSong ? activeSong.title : "Ready for your pick..."}
+                   </h3>
+                   <p className="text-green-500 font-bold uppercase tracking-[0.2em] text-[10px] mt-1">
+                     {activeSong ? "Now Streaming Your Vibe" : "Pick a slot on the right to start"}
+                   </p>
+                </div>
+             </div>
+             
+             {activeSong && (
+               <div className="flex items-end gap-1.5 h-10">
+                  {[0.4, 0.7, 0.5, 0.9, 0.6, 0.8].map((h, i) => (
+                    <div 
+                      key={i} 
+                      className="w-1.5 bg-green-400 rounded-full animate-bounce"
+                      style={{ height: `${h * 100}%`, animationDelay: `${i * 0.1}s`, animationDuration: '0.8s' }}
+                    ></div>
+                  ))}
+               </div>
+             )}
           </div>
         </div>
 
-        {/* Right: Playlist Scroll */}
-        <div className="xl:w-7/12 flex flex-col">
-          <div className="flex items-center justify-between mb-8 px-4">
-            <h4 className="text-sm font-black uppercase tracking-[0.2em] text-gray-400">Song Library</h4>
-            <div className="h-px flex-grow mx-6 bg-rose-100/50"></div>
-            <span className="text-xs font-bold text-rose-500 bg-rose-50 px-4 py-2 rounded-full ring-1 ring-rose-100">{SONGS.length} Items</span>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4 overflow-y-auto max-h-[600px] pr-4 custom-scrollbar">
-            {SONGS.map((song, idx) => (
-              <button 
-                key={idx}
-                onClick={() => setActiveSong(idx)}
-                className={`w-full group flex items-center gap-6 p-5 rounded-3xl transition-all duration-300 ${
-                  activeSong === idx 
-                  ? 'bg-rose-500 text-white shadow-2xl scale-[1.02] z-10' 
-                  : 'bg-white/60 hover:bg-white text-gray-600 hover:shadow-xl hover:-translate-y-1'
-                }`}
-              >
-                <div className="relative flex-shrink-0">
-                   <img src={song.cover} className={`w-16 h-16 rounded-2xl object-cover ${activeSong === idx ? 'ring-4 ring-white/30' : 'grayscale group-hover:grayscale-0'} transition-all duration-500`} />
-                   {activeSong === idx && (
-                     <div className="absolute inset-0 bg-rose-500/20 rounded-2xl flex items-center justify-center">
-                       <div className="flex gap-1 h-3">
-                        <div className="w-1 bg-white animate-bounce"></div>
-                        <div className="w-1 bg-white animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-1 bg-white animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                       </div>
-                     </div>
-                   )}
+        {/* The 18 Grid: Track Selection */}
+        <div className="lg:w-1/3">
+          <div className="bg-white/40 backdrop-blur-2xl rounded-[4rem] p-8 border border-white shadow-2xl sticky top-8">
+            <div className="flex items-center justify-between mb-8 px-2">
+               <h4 className="text-xs font-black uppercase tracking-[0.4em] text-gray-400">Your 18 Selections</h4>
+               <div className="w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar">
+              {songs.map((song, idx) => (
+                <div key={idx} className="relative group">
+                  <button
+                    onClick={() => song ? setActiveIdx(idx) : setEditingIdx(idx)}
+                    className={`w-full flex items-center gap-4 p-4 rounded-[2rem] transition-all duration-300 border-2 ${
+                      activeIdx === idx 
+                        ? 'bg-green-500 border-green-400 text-white shadow-lg scale-[1.03] z-10' 
+                        : song 
+                          ? 'bg-white/80 border-transparent hover:border-green-100 text-gray-600 hover:shadow-xl'
+                          : 'bg-white/30 border-dashed border-gray-200 text-gray-300 hover:border-green-200'
+                    }`}
+                  >
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-sm transition-all ${
+                      activeIdx === idx ? 'bg-white/20' : song ? 'bg-green-50 text-green-500' : 'bg-gray-100 text-gray-200'
+                    }`}>
+                      {song ? "🎵" : idx + 1}
+                    </div>
+
+                    <div className="text-left flex-grow truncate">
+                      <div className={`font-bold text-sm ${activeIdx === idx ? 'text-white' : song ? 'text-gray-900' : 'text-gray-300'} truncate`}>
+                        {song ? `Track #${idx + 1}` : "Empty Slot"}
+                      </div>
+                      <div className={`text-[9px] font-black uppercase tracking-widest ${activeIdx === idx ? 'text-green-100' : 'text-green-400'}`}>
+                        {song ? "PLAY NOW" : "Click to Add Link"}
+                      </div>
+                    </div>
+
+                    {!song && (
+                      <div className="w-8 h-8 bg-white/50 rounded-full flex items-center justify-center text-green-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                        +
+                      </div>
+                    )}
+                  </button>
+
+                  {/* Actions for filled slots */}
+                  {song && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
+                       <button 
+                        onClick={(e) => { e.stopPropagation(); setEditingIdx(idx); }}
+                        className="w-8 h-8 bg-white text-blue-500 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-50"
+                        title="Edit Link"
+                       >
+                         ✏️
+                       </button>
+                       <button 
+                        onClick={(e) => { e.stopPropagation(); removeTrack(idx); }}
+                        className="w-8 h-8 bg-white text-rose-500 rounded-full flex items-center justify-center shadow-lg hover:bg-rose-50"
+                        title="Remove"
+                       >
+                         🗑️
+                       </button>
+                    </div>
+                  )}
                 </div>
-                <div className="text-left flex-grow truncate">
-                  <div className={`font-bold text-lg ${activeSong === idx ? 'text-white' : 'text-gray-900'} truncate`}>{song.title}</div>
-                  <div className={`text-xs font-bold ${activeSong === idx ? 'text-rose-100/80' : 'text-rose-400'} uppercase tracking-widest mt-1`}>{song.artist}</div>
-                </div>
-              </button>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Add/Edit Modal */}
+      {editingIdx !== null && (
+        <div 
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-green-900/20 backdrop-blur-md animate-in fade-in duration-300"
+          onClick={() => setEditingIdx(null)}
+        >
+          <div 
+            className="w-full max-w-md bg-white rounded-[3.5rem] p-12 shadow-2xl border border-green-50 animate-in zoom-in duration-300"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="text-center space-y-4 mb-8">
+               <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center text-4xl mx-auto shadow-inner">✨</div>
+               <h3 className="text-3xl font-serif-elegant font-bold text-gray-900">Add Track #{editingIdx + 1}</h3>
+               <p className="text-gray-400 italic text-sm">Paste any Spotify track, playlist, or album link</p>
+            </div>
+            
+            <div className="space-y-6">
+              <input 
+                autoFocus
+                type="text" 
+                value={tempUrl}
+                onChange={(e) => setTempUrl(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddSong()}
+                placeholder="https://open.spotify.com/track/..."
+                className="w-full px-8 py-5 rounded-[2rem] bg-gray-50 border-2 border-transparent focus:border-green-400 focus:bg-white outline-none transition-all font-medium text-gray-600"
+              />
+              
+              {error && <p className="text-rose-500 text-xs font-bold text-center animate-bounce">{error}</p>}
+              
+              <div className="grid grid-cols-2 gap-4">
+                <button 
+                  onClick={() => setEditingIdx(null)}
+                  className="py-5 rounded-[2rem] font-bold text-gray-400 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleAddSong}
+                  className="py-5 bg-green-500 text-white rounded-[2rem] font-bold shadow-xl shadow-green-100 hover:bg-green-600 active:scale-95 transition-all"
+                >
+                  Save to Playlist
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dcfce7; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      `}</style>
     </div>
   );
 };

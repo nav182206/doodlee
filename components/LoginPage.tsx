@@ -20,7 +20,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onUnlock }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Assuming '1999' is still the secret key but the label is changed to 'FIND ME'
+    // The code remains '1999' or whatever secret you chose, but the label is 'FIND ME'
     if (key === '1999') {
       onUnlock();
     } else {
@@ -50,8 +50,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onUnlock }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h1 className="text-4xl font-serif-elegant font-bold text-gray-900 tracking-tight">Access Granted?</h1>
-          <p className="text-gray-500 font-light text-sm italic">Unlock the memories — FIND ME{dots}</p>
+          <h1 className="text-4xl font-serif-elegant font-bold text-gray-900 tracking-tight">Secret Access</h1>
+          <p className="text-gray-500 font-light text-sm italic">Enter the hidden key — FIND ME{dots}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -80,7 +80,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onUnlock }) => {
             type="submit"
             className="w-full py-5 bg-blue-500 text-white rounded-3xl font-bold text-lg shadow-[0_20px_40px_-10px_rgba(59,130,246,0.3)] hover:bg-blue-600 hover:shadow-[0_25px_50px_-12px_rgba(59,130,246,0.4)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group overflow-hidden relative"
           >
-            <span className="relative z-10">Open The Vault</span>
+            <span className="relative z-10">Unlock Memories</span>
             <svg className="w-6 h-6 z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>

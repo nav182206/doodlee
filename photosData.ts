@@ -2,35 +2,35 @@
 import { Photo } from './types';
 
 export const PHOTOS: Photo[] = [
-  // Childhood - 6 Photos
-  { url: "C:\Users\suria\OneDrive\Pictures", category: "Childhood", caption: "The beginning of your beautiful story.", secretMessage: "I wish I could protect this smile forever. 🥺" },
-  { url: "https://picsum.photos/seed/child2/800/1000", category: "Childhood", caption: "Always a little explorer." },
-  { url: "https://picsum.photos/seed/child3/800/1000", category: "Childhood", caption: "That sweet smile hasn't changed." },
-  { url: "https://picsum.photos/seed/child4/800/1000", category: "Childhood", caption: "Little steps, big dreams." },
-  { url: "https://picsum.photos/seed/child5/800/1000", category: "Childhood", caption: "Pure joy from the very start.", secretMessage: "Your eyes still sparkle exactly like this when you're happy." },
-  { url: "https://picsum.photos/seed/child6/800/1000", category: "Childhood", caption: "A bundle of magic and sunshine." },
-  
-  // Growing Years - 6 Photos
-  { url: "https://picsum.photos/seed/grow1/800/1000", category: "Growing Years", caption: "Finding your way in the world." },
-  { url: "https://picsum.photos/seed/grow2/800/1000", category: "Growing Years", caption: "Chasing dreams and making memories." },
-  { url: "https://picsum.photos/seed/grow3/800/1000", category: "Growing Years", caption: "Blooming into the person you are.", secretMessage: "I'm so proud of the woman you've become." },
-  { url: "https://picsum.photos/seed/grow4/800/1000", category: "Growing Years", caption: "Every year a new adventure." },
-  { url: "https://picsum.photos/seed/grow5/800/1000", category: "Growing Years", caption: "Discovering the magic of life.", secretMessage: "This is why I lose every argument—you're too cute! 😂" },
-  { url: "https://picsum.photos/seed/grow6/800/1000", category: "Growing Years", caption: "Becoming the inspiration you are today." },
-  
-  // Present Her - 6 Photos
-  { url: "https://picsum.photos/seed/pres1/800/1000", category: "Present Her", caption: "The most stunning woman I know.", secretMessage: "You take my breath away every single time I look at you." },
-  { url: "https://picsum.photos/seed/pres2/800/1000", category: "Present Her", caption: "Radiating grace and kindness." },
-  { url: "https://picsum.photos/seed/pres3/800/1000", category: "Present Her", caption: "My favorite person to look at." },
-  { url: "https://picsum.photos/seed/pres4/800/1000", category: "Present Her", caption: "Simply breathtaking, every single day.", secretMessage: "How are you even real? ❤️" },
-  { url: "https://picsum.photos/seed/pres5/800/1000", category: "Present Her", caption: "Your light shines brighter than ever." },
-  { url: "https://picsum.photos/seed/pres6/800/1000", category: "Present Her", caption: "Perfection in every single frame." },
+  // --- CHILDHOOD (6 SLOTS) ---
+  { url: "child_1", category: "Childhood", caption: "The Video Call Flex 💪", secretMessage: "My champion since day one. 💙" },
+  { url: "child_2", category: "Childhood", caption: "Goofy Partners 😜", secretMessage: "Nobody makes me laugh like you do. 💙" },
+  { url: "child_3", category: "Childhood", caption: "Traditional Beauty ✨", secretMessage: "A literal queen in every lifetime. 👑" },
+  { url: "child_4", category: "Childhood", caption: "Rockstar Vibes 🎧", secretMessage: "Coolest girl in the room, always. 💙" },
+  { url: "child_5", category: "Childhood", caption: "The Best Angle 👅", secretMessage: "I love your wild side! 💙" },
+  { url: "child_6", category: "Childhood", caption: "Pure Innocence 🌸", secretMessage: "This smile is my favorite thing in the world. 💙" },
 
-  // Our Pictures - 6 Photos
-  { url: "https://picsum.photos/seed/our1/800/1000", category: "Our Journey", caption: "Where it all started for us.", secretMessage: "The best day of my life was meeting you." },
-  { url: "https://picsum.photos/seed/our2/800/1000", category: "Our Journey", caption: "Hand in hand, always." },
-  { url: "https://picsum.photos/seed/our3/800/1000", category: "Our Journey", caption: "To many more adventures together.", secretMessage: "This moment lives in my head rent-free. 🏠✨" },
-  { url: "https://picsum.photos/seed/our4/800/1000", category: "Our Journey", caption: "Building our own little world." },
-  { url: "https://picsum.photos/seed/our5/800/1000", category: "Our Journey", caption: "Captured moments of pure love." },
-  { url: "https://picsum.photos/seed/our6/800/1000", category: "Our Journey", caption: "The best part of my life is you.", secretMessage: "Forever isn't long enough with you." }
+  // --- GROWING YEARS (6 SLOTS) ---
+  { url: "grow_1", category: "Growing Years", caption: "Finding Your Path 🚶‍♀️", secretMessage: "Watching you grow is my greatest joy. 💙" },
+  { url: "grow_2", category: "Growing Years", caption: "Summer Memories ☀️", secretMessage: "You outshine the sun every single time. 💙" },
+  { url: "grow_3", category: "Growing Years", caption: "School Days 📚", secretMessage: "The smartest and prettiest girl I know. 💙" },
+  { url: "grow_4", category: "Growing Years", caption: "Golden Hour 🌅", secretMessage: "Everything is better with you. 💙" },
+  { url: "grow_5", category: "Growing Years", caption: "Dreaming Big ☁️", secretMessage: "I'll always be here to support your dreams. 💙" },
+  { url: "grow_6", category: "Growing Years", caption: "Simply You 💎", secretMessage: "Never change, Sweeta. You are perfect. 💙" },
+
+  // --- PRESENT HER (6 SLOTS) ---
+  { url: "pres_1", category: "Present Her", caption: "The Woman of My Dreams 💍", secretMessage: "I still get butterflies when I see you. 💙" },
+  { url: "pres_2", category: "Present Her", caption: "Stunning Today ✨", secretMessage: "You just keep getting more beautiful. 💙" },
+  { url: "pres_3", category: "Present Her", caption: "Your Radiant Smile 😊", secretMessage: "My world lights up when you're happy. 💙" },
+  { url: "pres_4", category: "Present Her", caption: "Elegance Personified 👗", secretMessage: "Classy, sassy, and a bit bad-assy! 💙" },
+  { url: "pres_5", category: "Present Her", caption: "My Whole Heart ❤️", secretMessage: "You have it all, forever. 💙" },
+  { url: "pres_6", category: "Present Her", caption: "The Birthday Queen 🎂", secretMessage: "The world is lucky to have you. 💙" },
+
+  // --- OUR JOURNEY (6 SLOTS) ---
+  { url: "our_1", category: "Our Journey", caption: "Where We Began 🌱", secretMessage: "The start of our forever. 💙" },
+  { url: "our_2", category: "Our Journey", caption: "Date Night Magic ✨", secretMessage: "I never want these nights to end. 💙" },
+  { url: "our_3", category: "Our Journey", caption: "Traveling Together ✈️", secretMessage: "Exploring the world with my favorite person. 💙" },
+  { url: "our_4", category: "Our Journey", caption: "Cozy Moments ☕", secretMessage: "Home is wherever I'm with you. 💙" },
+  { url: "our_5", category: "Our Journey", caption: "Laughing Til It Hurts 😂", secretMessage: "Best friends and lovers for life. 💙" },
+  { url: "our_6", category: "Our Journey", caption: "Our Future Awaits 🚀", secretMessage: "The best is yet to come, Sweeta. 💙" }
 ];
