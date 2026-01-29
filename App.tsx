@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import Hero from './components/Hero';
-import Music from './components/Music';
-import Gallery from './components/Gallery';
-import EmotionalMessage from './components/EmotionalMessage';
-import LoginPage from './components/LoginPage';
-import Navigation from './components/Navigation';
-import SpecialMoments from './components/SpecialMoments';
+import Hero from './components/Hero.tsx';
+import Music from './components/Music.tsx';
+import Gallery from './components/Gallery.tsx';
+import EmotionalMessage from './components/EmotionalMessage.tsx';
+import LoginPage from './components/LoginPage.tsx';
+import Navigation from './components/Navigation.tsx';
+import SpecialMoments from './components/SpecialMoments.tsx';
 
 type ActiveView = 'home' | 'music' | 'gallery' | 'message' | 'voices';
 
