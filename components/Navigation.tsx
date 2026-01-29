@@ -1,21 +1,18 @@
 
 import React from 'react';
 
-type View = 'home' | 'music' | 'gallery' | 'moments' | 'message' | 'voices';
+type View = 'home' | 'music' | 'gallery' | 'message' | 'voices';
 
 interface NavProps {
   activeView: View;
   setView: (v: View) => void;
-  editMode: boolean;
-  setEditMode: (e: boolean) => void;
 }
 
-const Navigation: React.FC<NavProps> = ({ activeView, setView, editMode, setEditMode }) => {
+const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
   const navItems: { id: View; label: string; icon: string }[] = [
     { id: 'home', label: 'Welcome', icon: '🏠' },
     { id: 'gallery', label: 'Pictures', icon: '📸' },
     { id: 'music', label: 'Music', icon: '🎵' },
-    { id: 'moments', label: 'Timeline', icon: '⏳' },
     { id: 'voices', label: 'Voices', icon: '🎙️' },
     { id: 'message', label: 'Letters', icon: '✉️' },
   ];
@@ -46,20 +43,10 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView, editMode, setEdit
           ))}
         </div>
 
-        <div className="mt-auto space-y-6">
-          {/* Admin Toggle */}
-          <button 
-            onClick={() => setEditMode(!editMode)}
-            className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl border-2 transition-all ${
-              editMode ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-gray-100 border-transparent text-gray-400'
-            }`}
-          >
-            <span className="text-xs font-black uppercase tracking-widest">{editMode ? 'Edit Mode' : 'Locked'}</span>
-            <span>{editMode ? '🔓' : '🔒'}</span>
-          </button>
-          
-          <div className="text-center">
-            <p className="text-[10px] uppercase tracking-widest text-rose-300 font-bold">Made for Sweeta 💙</p>
+        <div className="mt-auto pt-8 border-t border-rose-100">
+          <div className="text-center space-y-2">
+            <p className="text-[10px] uppercase tracking-widest text-rose-300 font-black">Made for Sweeta 💙</p>
+            <p className="text-[8px] text-gray-400 uppercase tracking-tighter italic">Personal Prototype v1.0</p>
           </div>
         </div>
       </nav>

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { VoiceNote } from '../types';
 
 const BIRTHDAY_VOICE_NOTE: VoiceNote = {
@@ -10,141 +10,24 @@ const BIRTHDAY_VOICE_NOTE: VoiceNote = {
   transcript: "Happy Birthday Sweeta! I recorded this to let you know that you are the light of my life. Every second with you is a gift, and I hope this year brings you as much joy as you've brought me. I love you more than words can say. 💙"
 };
 
-const SLOT_COUNT = 6;
-const STORAGE_KEY = 'sweeta_special_moments_v3';
-
-interface SpecialMomentsProps {
-  editMode: boolean;
-  onSave: () => void;
-}
-
-const SpecialMoments: React.FC<SpecialMomentsProps> = ({ editMode, onSave }) => {
+const SpecialMoments: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [specialPhotos, setSpecialPhotos] = useState<Record<number, string>>({});
-  const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
-  const [previewPhoto, setPreviewPhoto] = useState<{url: string, caption: string} | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Persistence: Load on mount
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        setSpecialPhotos(JSON.parse(saved));
-      } catch (e) {
-        console.error("Persistence Load Error:", e);
-      }
-    }
-  }, []);
-
-  const compressImage = (base64Str: string): Promise<string> => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.src = base64Str;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 1000;
-        let width = img.width;
-        let height = img.height;
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.fillStyle = "white";
-          ctx.fillRect(0, 0, width, height);
-          ctx.drawImage(img, 0, 0, width, height);
-        }
-        resolve(canvas.toDataURL('image/jpeg', 0.6));
-      };
-    });
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && uploadingIdx !== null) {
-      setIsProcessing(true);
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64String = reader.result as string;
-          const compressed = await compressImage(base64String);
-          
-          setSpecialPhotos(prev => {
-            const updated = { ...prev, [uploadingIdx]: compressed };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-            return updated;
-          });
-          onSave();
-        } catch (err) {
-          alert("Storage limit reached! Please use a smaller file.");
-        } finally {
-          setUploadingIdx(null);
-          setIsProcessing(false);
-          if (fileInputRef.current) fileInputRef.current.value = '';
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const triggerUpload = (idx: number) => {
-    if (!editMode) return;
-    setUploadingIdx(idx);
-    fileInputRef.current?.click();
-  };
-
-  const removePhoto = (idx: number) => {
-    const updatedPhotos = { ...specialPhotos };
-    delete updatedPhotos[idx];
-    setSpecialPhotos(updatedPhotos);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPhotos));
-    onSave();
-  };
-
-  const captions = [
-    "The way you look at me",
-    "Late night video calls",
-    "That goofy face you make",
-    "Pure happiness",
-    "My favorite screenshot",
-    "Waking up to your texts"
-  ];
+  
+  // The user will replace this placeholder with their actual Google Photos link
+  const ALBUM_LINK = "https://photos.app.goo.gl/aYEYYcGjPgEwFi1i9";
 
   return (
     <div className="max-w-5xl mx-auto px-6 space-y-20 pb-32">
-      <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileUpload} />
-
-      {isProcessing && (
-        <div className="fixed inset-0 z-[250] bg-white/80 backdrop-blur-sm flex items-center justify-center flex-col gap-4">
-          <div className="w-16 h-16 border-4 border-blue-100 border-t-blue-500 rounded-full animate-spin"></div>
-          <p className="font-bold text-blue-600 animate-pulse">Locking in Memory...</p>
-        </div>
-      )}
-
-      {/* Image Preview Modal */}
-      {previewPhoto && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-300" onClick={() => setPreviewPhoto(null)}>
-          <button className="absolute top-6 right-6 text-white/50 hover:text-white text-4xl z-[110]">✕</button>
-          <div className="relative max-w-4xl w-full flex flex-col items-center animate-in zoom-in duration-300" onClick={e => e.stopPropagation()}>
-            <img src={previewPhoto.url} alt={previewPhoto.caption} className="max-w-full max-h-[80vh] object-contain rounded-3xl shadow-2xl border-4 border-white" />
-            <h3 className="mt-8 text-3xl font-serif-elegant font-bold text-white italic text-center">{previewPhoto.caption}</h3>
-          </div>
-        </div>
-      )}
-
+      {/* Header */}
       <div className="flex flex-col items-center text-center gap-4">
         <div className="w-20 h-20 bg-gradient-to-tr from-blue-400 to-indigo-500 rounded-[2rem] flex items-center justify-center text-white text-4xl shadow-2xl shadow-blue-200 animate-bounce">🎙️</div>
         <div>
-          <h2 className="text-5xl font-serif-elegant font-bold text-gray-900">Special Moments</h2>
-          <p className="text-blue-400 font-medium tracking-widest uppercase text-sm mt-2 italic">Your memories are saved safely 💙</p>
+          <h2 className="text-5xl font-serif-elegant font-bold text-gray-900">Sweet Moments</h2>
+          <p className="text-blue-400 font-medium tracking-widest uppercase text-sm mt-2 italic">A special space for our voices and memories 💙</p>
         </div>
       </div>
 
+      {/* Voice Message Section */}
       <div className="max-w-3xl mx-auto">
         <div className={`group bg-white/70 backdrop-blur-md rounded-[3rem] p-10 border-2 transition-all duration-700 ${isPlaying ? 'border-blue-400 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.3)] scale-[1.03]' : 'border-white shadow-xl hover:shadow-2xl'}`}>
           <div className="flex flex-col items-center gap-8">
@@ -166,45 +49,48 @@ const SpecialMoments: React.FC<SpecialMomentsProps> = ({ editMode, onSave }) => 
         </div>
       </div>
 
-      <div className="space-y-16">
+      {/* The Album Link Section */}
+      <div className="space-y-16 animate-in fade-in duration-1000 delay-300">
         <div className="flex items-center gap-6 px-4">
           <div className="h-px flex-grow bg-blue-100"></div>
-          <h3 className="text-3xl font-serif-elegant font-bold text-gray-800">Sweeta's Cutest Moments 💙</h3>
+          <h3 className="text-3xl font-serif-elegant font-bold text-gray-800 italic">Sweeta's Cutest Moments 💙</h3>
           <div className="h-px flex-grow bg-blue-100"></div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
-          {Array.from({ length: SLOT_COUNT }).map((_, idx) => {
-            const photoUrl = specialPhotos[idx];
-            if (!photoUrl && !editMode) return null;
-
-            return (
-              <div key={idx} className={`group relative aspect-square bg-white p-4 rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-blue-50 ${!photoUrl ? 'bg-blue-50/30 border-dashed border-blue-200' : ''}`}>
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-7 bg-white/60 backdrop-blur-sm border border-white shadow-sm rotate-2 z-20"></div>
-                <div className="w-full h-full overflow-hidden rounded-[1.8rem] relative bg-gray-50 flex items-center justify-center">
-                  {photoUrl ? (
-                    <>
-                      <img src={photoUrl} alt={captions[idx]} className="w-full h-full object-cover cursor-pointer" onClick={() => setPreviewPhoto({ url: photoUrl, caption: captions[idx] })} />
-                      <div className="absolute inset-0 bg-blue-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
-                         <button onClick={() => setPreviewPhoto({ url: photoUrl, caption: captions[idx] })} className="bg-white text-blue-600 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-lg">View Large</button>
-                         {editMode && (
-                           <>
-                             <button onClick={() => triggerUpload(idx)} className="bg-white/20 text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-lg">Change</button>
-                             <button onClick={() => removePhoto(idx)} className="bg-rose-500 text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest shadow-lg">Remove</button>
-                           </>
-                         )}
-                      </div>
-                    </>
-                  ) : (
-                    <button onClick={() => triggerUpload(idx)} className="flex flex-col items-center gap-3 text-blue-200 hover:text-blue-500">
-                      <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center text-2xl shadow-sm border border-blue-50 group-hover:animate-pulse">📸</div>
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em]">Add Slot {idx + 1}</span>
-                    </button>
-                  )}
+        <div className="max-w-3xl mx-auto group relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-indigo-500/10 blur-3xl -z-10 rounded-full group-hover:scale-110 transition-transform duration-1000"></div>
+            
+            <div className="bg-white/80 backdrop-blur-xl border-4 border-white rounded-[4rem] p-16 shadow-2xl text-center space-y-8 transition-all duration-500 hover:shadow-blue-200/50 hover:-translate-y-2">
+                <div className="text-8xl animate-float">🧸</div>
+                <div className="space-y-4">
+                    <h4 className="text-4xl font-serif-elegant font-bold text-gray-800">The Ultimate Collection</h4>
+                    <p className="text-gray-500 text-lg italic max-w-lg mx-auto leading-relaxed">
+                        "From little infant baby steps to your favorite food and everything that makes you smile. I've put all those pictures in this one special place."
+                    </p>
                 </div>
-              </div>
-            );
-          })}
+
+                <div className="pt-6">
+                    <a 
+                      href={ALBUM_LINK} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-4 px-12 py-6 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-sm shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)] hover:bg-blue-700 hover:shadow-[0_25px_50px_-12px_rgba(37,99,235,0.5)] transition-all transform hover:scale-105 active:scale-95"
+                    >
+                        <span>View All Pictures</span>
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                    
+                    <div className="mt-8 flex justify-center gap-6 text-2xl grayscale group-hover:grayscale-0 transition-all duration-700 opacity-40 group-hover:opacity-100">
+                        <span>👶</span>
+                        <span>🐧</span>
+                        <span>🥣</span>
+                        <span>🏀</span>
+                        <span>🍫</span>
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
     </div>

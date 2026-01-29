@@ -3,27 +3,21 @@ import React, { useState, useEffect } from 'react';
 import Hero from './components/Hero';
 import Music from './components/Music';
 import Gallery from './components/Gallery';
-import Moments from './components/Moments';
 import EmotionalMessage from './components/EmotionalMessage';
 import LoginPage from './components/LoginPage';
 import Navigation from './components/Navigation';
 import SpecialMoments from './components/SpecialMoments';
 
-type ActiveView = 'home' | 'music' | 'gallery' | 'moments' | 'message' | 'voices';
+type ActiveView = 'home' | 'music' | 'gallery' | 'message' | 'voices';
 
 const App: React.FC = () => {
   const [isAuthorized, setIsAuthorized] = useState(() => localStorage.getItem('sweeta_auth') === 'true');
   const [activeView, setActiveView] = useState<ActiveView>('home');
-  const [editMode, setEditMode] = useState(() => localStorage.getItem('sweeta_edit_mode') !== 'false');
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem('sweeta_auth', isAuthorized.toString());
   }, [isAuthorized]);
-
-  useEffect(() => {
-    localStorage.setItem('sweeta_edit_mode', editMode.toString());
-  }, [editMode]);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -33,7 +27,7 @@ const App: React.FC = () => {
   const handleUnlock = () => {
     setIsAuthorized(true);
     setActiveView('home');
-    showToast("Welcome Back! 💙");
+    showToast("Happy Birthday, Sweeta! 💙");
   };
 
   const handleLogout = () => {
@@ -46,20 +40,17 @@ const App: React.FC = () => {
   }
 
   const renderView = () => {
-    const props = { editMode, onSave: () => showToast("Memory Saved ✨") };
     switch (activeView) {
       case 'home':
         return <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />;
       case 'music':
-        return <Music {...props} />;
+        return <Music />;
       case 'gallery':
-        return <Gallery {...props} />;
-      case 'moments':
-        return <Moments {...props} />;
+        return <Gallery />;
       case 'message':
         return <EmotionalMessage />;
       case 'voices':
-        return <SpecialMoments {...props} />;
+        return <SpecialMoments />;
       default:
         return <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />;
     }
@@ -70,8 +61,6 @@ const App: React.FC = () => {
       <Navigation 
         activeView={activeView} 
         setView={setActiveView} 
-        editMode={editMode} 
-        setEditMode={setEditMode} 
       />
 
       <main className="flex-grow flex flex-col items-center justify-start p-4 md:p-10 lg:p-16 overflow-y-auto h-screen custom-scrollbar relative">
@@ -80,7 +69,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Persistence Toast */}
+      {/* Celebration Toast */}
       {toast && (
         <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[300] bg-gray-900/90 backdrop-blur-md text-white px-8 py-4 rounded-full font-bold text-sm shadow-2xl animate-in slide-in-from-top-4 duration-300 flex items-center gap-3">
           <span className="text-xl">✨</span>

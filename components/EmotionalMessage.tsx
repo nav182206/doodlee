@@ -65,7 +65,7 @@ const EmotionalMessage: React.FC = () => {
       </div>
       
       <div className="mt-32 pt-12 border-t border-rose-100 opacity-50">
-        <p className="text-sm uppercase tracking-widest text-rose-400 font-bold">Happy Birthday 2024</p>
+        <p className="text-sm uppercase tracking-widest text-rose-400 font-bold">Birthday Blossom Special Edition 💙</p>
       </div>
     </div>
   );
