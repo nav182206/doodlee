@@ -1,16 +1,25 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
-}
+console.log("App initializing...");
 
-const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const container = document.getElementById('root');
+
+if (container) {
+  try {
+    const root = createRoot(container);
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+    console.log("App rendered successfully.");
+  } catch (error) {
+    console.error("Failed to render the app:", error);
+    container.innerHTML = `<div style="padding: 20px; color: red;">Something went wrong while loading the surprise. Please check the console.</div>`;
+  }
+} else {
+  console.error("Root element not found");
+}
