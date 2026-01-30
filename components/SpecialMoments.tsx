@@ -13,8 +13,8 @@ const BIRTHDAY_VOICE_NOTE: VoiceNote = {
 const SpecialMoments: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   
-  // The user will replace this placeholder with their actual Google Photos link
-  const ALBUM_LINK = "https://photos.app.goo.gl/aYEYYcGjPgEwFi1i9";
+  // Updated with the new link provided by the user
+  const ALBUM_LINK = "https://photos.app.goo.gl/RH4qNG3npM8SfC8K9";
 
   return (
     <div className="max-w-5xl mx-auto px-6 space-y-20 pb-32">

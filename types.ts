@@ -5,7 +5,7 @@ export interface Photo {
   url: string;
   category: PhotoCategory;
   caption: string;
-  secretMessage?: string; // Optional easter egg message
+  secretMessage?: string;
 }
 
 export interface Moment {
@@ -21,13 +21,28 @@ export interface Song {
   title: string;
   artist: string;
   cover: string;
-  spotifyUrl?: string; // The link to embed
+  spotifyUrl?: string;
+}
+
+export interface Voucher {
+  id: string;
+  title: string;
+  description: string;
+  emoji: string;
+  color: string;
 }
 
 export interface VoiceNote {
   id: string;
   title: string;
-  duration: string;
   date: string;
+  duration: string;
   transcript: string;
+}
+
+export interface Dream {
+  id: string;
+  text: string;
+  isAchieved: boolean;
+  createdAt: number;
 }

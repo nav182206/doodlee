@@ -20,7 +20,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onUnlock }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // The code remains '1999' or whatever secret you chose, but the label is 'FIND ME'
+    // The code remains '1999' as the secret key
     if (key === '1999') {
       onUnlock();
     } else {
@@ -64,8 +64,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onUnlock }) => {
                 setError(false);
               }}
               placeholder="FIND ME"
-              className={`w-full px-8 py-6 rounded-3xl bg-white/60 border-2 text-center text-3xl font-mono tracking-[0.5em] transition-all duration-300 focus:outline-none placeholder:text-blue-200 placeholder:tracking-normal placeholder:text-lg ${
-                error ? 'border-rose-300 ring-4 ring-rose-50' : 'border-blue-100 focus:border-blue-400 focus:bg-white focus:shadow-lg'
+              className={`w-full px-8 py-6 rounded-3xl bg-black border-2 text-center text-3xl font-mono tracking-[0.5em] text-white transition-all duration-300 focus:outline-none placeholder:text-gray-600 placeholder:tracking-normal placeholder:text-lg ${
+                error ? 'border-rose-500 ring-4 ring-rose-900/20' : 'border-gray-900 focus:border-blue-500 focus:shadow-[0_0_40px_rgba(59,130,246,0.4)]'
               }`}
               maxLength={4}
             />

@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-type View = 'home' | 'music' | 'gallery' | 'message' | 'voices';
+type View = 'home' | 'music' | 'gallery' | 'message' | 'dreams';
 
 interface NavProps {
   activeView: View;
@@ -13,7 +13,7 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
     { id: 'home', label: 'Welcome', icon: '🏠' },
     { id: 'gallery', label: 'Pictures', icon: '📸' },
     { id: 'music', label: 'Music', icon: '🎵' },
-    { id: 'voices', label: 'Voices', icon: '🎙️' },
+    { id: 'dreams', label: 'Dream Board', icon: '✨' },
     { id: 'message', label: 'Letters', icon: '✉️' },
   ];
 
@@ -23,7 +23,7 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
       <nav className="hidden md:flex flex-col w-64 bg-white/40 backdrop-blur-xl border-r border-rose-100 p-8 space-y-10 shrink-0 relative">
         <div className="text-center">
           <div className="text-3xl mb-2">🌸</div>
-          <h1 className="font-serif-elegant font-bold text-rose-600 text-xl">Birthday Edition</h1>
+          <h1 className="font-serif-elegant font-bold text-blue-600 text-xl tracking-tight">Birthday Special</h1>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -33,8 +33,8 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
               onClick={() => setView(item.id)}
               className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 font-medium ${
                 activeView === item.id 
-                  ? 'bg-rose-500 text-white shadow-lg translate-x-2' 
-                  : 'text-gray-500 hover:bg-rose-50 hover:text-rose-500'
+                  ? 'bg-blue-500 text-white shadow-lg translate-x-2' 
+                  : 'text-gray-500 hover:bg-blue-50 hover:text-blue-500'
               }`}
             >
               <span className="text-xl">{item.icon}</span>
@@ -45,8 +45,8 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
 
         <div className="mt-auto pt-8 border-t border-rose-100">
           <div className="text-center space-y-2">
-            <p className="text-[10px] uppercase tracking-widest text-rose-300 font-black">Made for Sweeta 💙</p>
-            <p className="text-[8px] text-gray-400 uppercase tracking-tighter italic">Personal Prototype v1.0</p>
+            <p className="text-[10px] uppercase tracking-widest text-blue-300 font-black">Made for Sweeta 💙</p>
+            <p className="text-[8px] text-gray-400 uppercase tracking-tighter italic">Personal Prototype v1.2</p>
           </div>
         </div>
       </nav>
@@ -58,7 +58,7 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
             key={item.id}
             onClick={() => setView(item.id)}
             className={`flex flex-col items-center gap-1 transition-colors ${
-              activeView === item.id ? 'text-rose-500 scale-110' : 'text-gray-400'
+              activeView === item.id ? 'text-blue-500 scale-110' : 'text-gray-400'
             }`}
           >
             <span className="text-2xl">{item.icon}</span>

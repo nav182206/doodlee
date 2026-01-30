@@ -6,9 +6,9 @@ import Gallery from './components/Gallery.tsx';
 import EmotionalMessage from './components/EmotionalMessage.tsx';
 import LoginPage from './components/LoginPage.tsx';
 import Navigation from './components/Navigation.tsx';
-import SpecialMoments from './components/SpecialMoments.tsx';
+import DreamBoard from './components/DreamBoard.tsx';
 
-type ActiveView = 'home' | 'music' | 'gallery' | 'message' | 'voices';
+type ActiveView = 'home' | 'music' | 'gallery' | 'message' | 'dreams';
 
 const App: React.FC = () => {
   const [isAuthorized, setIsAuthorized] = useState(() => localStorage.getItem('sweeta_auth') === 'true');
@@ -49,8 +49,8 @@ const App: React.FC = () => {
         return <Gallery />;
       case 'message':
         return <EmotionalMessage />;
-      case 'voices':
-        return <SpecialMoments />;
+      case 'dreams':
+        return <DreamBoard />;
       default:
         return <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />;
     }

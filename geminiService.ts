@@ -2,9 +2,9 @@
 import { GoogleGenAI } from "@google/genai";
 
 const getAIInstance = () => {
-  // Safe check for process.env to prevent ReferenceErrors in browser environments
-  const apiKey = typeof process !== 'undefined' && process.env ? process.env.API_KEY : '';
-  return new GoogleGenAI({ apiKey: apiKey || '' });
+  // Always use direct access to process.env.API_KEY as required by the SDK guidelines.
+  // Assume the variable is pre-configured and accessible.
+  return new GoogleGenAI({ apiKey: process.env.API_KEY });
 };
 
 export const generateLoveLetter = async (prompt: string): Promise<string> => {
@@ -17,6 +17,7 @@ export const generateLoveLetter = async (prompt: string): Promise<string> => {
         temperature: 0.9,
       },
     });
+    // The .text property is used directly as it is not a method
     return response.text || "My love, I couldn't find the words, but my heart beats for you every day. Happy Birthday!";
   } catch (error) {
     console.error("Gemini Error:", error);
