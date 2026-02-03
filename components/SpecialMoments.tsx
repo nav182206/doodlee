@@ -53,7 +53,7 @@ const SpecialMoments: React.FC = () => {
       <div className="space-y-16 animate-in fade-in duration-1000 delay-300">
         <div className="flex items-center gap-6 px-4">
           <div className="h-px flex-grow bg-blue-100"></div>
-          <h3 className="text-3xl font-serif-elegant font-bold text-gray-800 italic">Sweeta's Cutest Moments 💙</h3>
+          <h3 className="text-3xl font-serif-elegant font-bold text-gray-800 italic">Everything You Love 💙</h3>
           <div className="h-px flex-grow bg-blue-100"></div>
         </div>
 
@@ -61,11 +61,11 @@ const SpecialMoments: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-indigo-500/10 blur-3xl -z-10 rounded-full group-hover:scale-110 transition-transform duration-1000"></div>
             
             <div className="bg-white/80 backdrop-blur-xl border-4 border-white rounded-[4rem] p-16 shadow-2xl text-center space-y-8 transition-all duration-500 hover:shadow-blue-200/50 hover:-translate-y-2">
-                <div className="text-8xl animate-float">🧸</div>
+                <div className="text-8xl animate-float">🐼</div>
                 <div className="space-y-4">
                     <h4 className="text-4xl font-serif-elegant font-bold text-gray-800">The Ultimate Collection</h4>
                     <p className="text-gray-500 text-lg italic max-w-lg mx-auto leading-relaxed">
-                        "From little infant baby steps to your favorite food and everything that makes you smile. I've put all those pictures in this one special place."
+                        "From pandas and basketball to cute babies and your favorite foods. I've put every picture that makes you happy in this one special place."
                     </p>
                 </div>
 
@@ -76,17 +76,17 @@ const SpecialMoments: React.FC = () => {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-4 px-12 py-6 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-sm shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)] hover:bg-blue-700 hover:shadow-[0_25px_50px_-12px_rgba(37,99,235,0.5)] transition-all transform hover:scale-105 active:scale-95"
                     >
-                        <span>View All Pictures</span>
+                        <span>View the Collection</span>
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </a>
                     
                     <div className="mt-8 flex justify-center gap-6 text-2xl grayscale group-hover:grayscale-0 transition-all duration-700 opacity-40 group-hover:opacity-100">
+                        <span>🐼</span>
                         <span>👶</span>
-                        <span>🐧</span>
-                        <span>🥣</span>
                         <span>🏀</span>
+                        <span>🍜</span>
                         <span>🍫</span>
                     </div>
                 </div>

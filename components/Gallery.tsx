@@ -32,14 +32,16 @@ const Gallery: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<PhotoCategory>('Childhood');
 
-  // Updated with the new link provided for all categories for now
-  const NEW_ALBUM_LINK = 'https://photos.app.goo.gl/RH4qNG3npM8SfC8K9';
+  // Specific links provided by the user
+  const CHILDHOOD_LINK = 'https://photos.app.goo.gl/EJ8nUY5TWj65YWKT9';
+  const GROWING_YEARS_LINK = 'https://photos.app.goo.gl/w8S7NMv45PMx1UybA';
+  const DEFAULT_ALBUM_LINK = 'https://photos.app.goo.gl/RH4qNG3npM8SfC8K9';
 
-  const albumLinks: Record<string, string> = {
-    'Childhood': NEW_ALBUM_LINK,
-    'Growing Years': NEW_ALBUM_LINK,
-    'Present Her': NEW_ALBUM_LINK,
-    'Our Journey': NEW_ALBUM_LINK
+  const albumLinks: Record<PhotoCategory, string> = {
+    'Childhood': CHILDHOOD_LINK,
+    'Growing Years': GROWING_YEARS_LINK,
+    'Present Her': DEFAULT_ALBUM_LINK,
+    'Our Journey': DEFAULT_ALBUM_LINK
   };
 
   const currentCategory = categories.find(c => c.value === activeTab)!;

@@ -1,71 +1,86 @@
 
-import React, { useState } from 'react';
-import { generateLoveLetter } from '../geminiService';
+import React, { useState, useEffect } from 'react';
 
 const EmotionalMessage: React.FC = () => {
-  const [keyword, setKeyword] = useState('');
-  const [letter, setLetter] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [personalLetter, setPersonalLetter] = useState(() => {
+    return localStorage.getItem('sweeta_personal_letter') || 
+      "My Dearest Sweeta,\n\n(Click the edit button to write your heart out here...)\n\nHappy Birthday to the most beautiful person I know. You make every day feel like a dream, and I am so lucky to have you in my life.\n\nForever yours.";
+  });
+  
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleGenerate = async () => {
-    if (!keyword.trim()) return;
-    setLoading(true);
-    const result = await generateLoveLetter(keyword);
-    setLetter(result);
-    setLoading(false);
-  };
+  // Save the personal letter whenever it changes
+  useEffect(() => {
+    localStorage.setItem('sweeta_personal_letter', personalLetter);
+  }, [personalLetter]);
 
   return (
-    <div className="max-w-3xl mx-auto px-6 text-center">
-      <div className="space-y-12">
-        <div className="space-y-4">
-          <h2 className="text-4xl font-serif-elegant font-bold text-gray-900">A Message Just For You</h2>
-          <p className="text-gray-600 italic">Think of a favorite memory or a word that describes us, and I'll put my feelings into words.</p>
+    <div className="max-w-4xl mx-auto px-6 space-y-20 pb-40">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <div className="inline-block p-3 px-6 rounded-full bg-rose-50 border border-rose-100 mb-2">
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-rose-500">From My Heart to Yours</span>
         </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <input 
-            type="text" 
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="e.g., Beach trip, Sunshine, Kindness..."
-            className="flex-grow max-w-md px-6 py-4 rounded-full border-2 border-rose-100 focus:border-rose-400 outline-none transition-all shadow-inner"
-          />
-          <button 
-            onClick={handleGenerate}
-            disabled={loading || !keyword}
-            className={`px-8 py-4 rounded-full bg-rose-500 text-white font-bold transition-all shadow-lg hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed`}
-          >
-            {loading ? 'Writing...' : 'Write Letter'}
-          </button>
-        </div>
-
-        {letter && (
-          <div className="mt-16 p-10 bg-white rounded-[2rem] shadow-2xl relative border-t-8 border-rose-400 animate-in slide-in-from-bottom duration-700">
-            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 bg-rose-400 rounded-full flex items-center justify-center text-white shadow-lg">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            </div>
-            <div className="text-lg md:text-xl text-gray-700 font-serif-elegant leading-relaxed whitespace-pre-wrap italic">
-              {letter}
-            </div>
-            <div className="mt-8 text-rose-500 font-cursive text-3xl font-bold">
-              Forever Yours.
-            </div>
-          </div>
-        )}
-        
-        {!letter && !loading && (
-          <div className="py-20 flex flex-col items-center gap-6 text-gray-300">
-             <div className="w-24 h-24 border-4 border-dashed border-gray-200 rounded-full flex items-center justify-center">
-                <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-             </div>
-             <p className="font-serif">The page is waiting for your touch...</p>
-          </div>
-        )}
+        <h2 className="text-5xl md:text-7xl font-serif-elegant font-bold text-gray-900 italic tracking-tight">The Love Letter</h2>
       </div>
-      
-      <div className="mt-32 pt-12 border-t border-rose-100 opacity-50">
-        <p className="text-sm uppercase tracking-widest text-rose-400 font-bold">Birthday Blossom Special Edition 💙</p>
+
+      {/* Main Letter Content */}
+      <div className="relative group">
+        {/* Background Decor */}
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-100/30 to-blue-100/30 blur-3xl -z-10 rounded-[4rem]"></div>
+        
+        <div className="bg-white rounded-[2rem] md:rounded-[4rem] shadow-2xl border-t-[12px] border-rose-400 overflow-hidden relative">
+          
+          {/* Letter Toolbar */}
+          <div className="absolute top-8 right-8 z-10">
+            <button 
+              onClick={() => setIsEditing(!isEditing)}
+              className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest transition-all ${
+                isEditing ? 'bg-rose-500 text-white shadow-lg' : 'bg-gray-50 text-gray-400 hover:bg-rose-50 hover:text-rose-500'
+              }`}
+            >
+              <span>{isEditing ? 'Save Letter' : 'Edit My Letter'}</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Letter Body */}
+          <div className="p-12 md:p-24 pt-28">
+            <div className="absolute top-12 left-12 opacity-10 pointer-events-none">
+                <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+
+            {isEditing ? (
+              <textarea
+                value={personalLetter}
+                onChange={(e) => setPersonalLetter(e.target.value)}
+                className="w-full min-h-[400px] bg-transparent font-serif text-xl md:text-2xl leading-relaxed text-gray-800 outline-none resize-none border-b-2 border-dashed border-rose-100 focus:border-rose-300 transition-colors"
+                placeholder="Write your heart out here..."
+              />
+            ) : (
+              <div className="space-y-12">
+                <div className="font-serif-elegant italic text-xl md:text-3xl leading-relaxed text-gray-800 whitespace-pre-wrap">
+                  {personalLetter}
+                </div>
+                <div className="pt-12 border-t border-rose-50">
+                  <p className="font-cursive text-4xl text-rose-500 font-bold">Forever Yours,</p>
+                  <p className="text-gray-400 font-bold uppercase tracking-[0.4em] text-[10px] mt-4">Written with Love 💙</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Decorative Wax Seal */}
+          <div className="absolute bottom-12 right-12 w-20 h-20 bg-rose-600 rounded-full flex items-center justify-center text-white shadow-xl rotate-12 border-4 border-rose-700/50">
+            <span className="text-2xl">❦</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center opacity-30 pt-10">
+        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400">Birthday Blossom Special Edition 💙</p>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
     { id: 'home', label: 'Welcome', icon: '🏠' },
     { id: 'gallery', label: 'Pictures', icon: '📸' },
     { id: 'music', label: 'Music', icon: '🎵' },
-    { id: 'dreams', label: 'Dream Board', icon: '✨' },
+    { id: 'dreams', label: 'Collection', icon: '✨' },
     { id: 'message', label: 'Letters', icon: '✉️' },
   ];
 
