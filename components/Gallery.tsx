@@ -35,13 +35,14 @@ const Gallery: React.FC = () => {
   // Specific links provided by the user
   const CHILDHOOD_LINK = 'https://photos.app.goo.gl/EJ8nUY5TWj65YWKT9';
   const GROWING_YEARS_LINK = 'https://photos.app.goo.gl/w8S7NMv45PMx1UybA';
-  const DEFAULT_ALBUM_LINK = 'https://photos.app.goo.gl/RH4qNG3npM8SfC8K9';
+  const OUR_PICTURES_LINK = 'https://photos.app.goo.gl/6nSxf6zhD9PrYUFa9';
+  const PRESENT_HER_LINK = 'https://photos.app.goo.gl/B5qCHo52AnLtgU776';
 
   const albumLinks: Record<PhotoCategory, string> = {
     'Childhood': CHILDHOOD_LINK,
     'Growing Years': GROWING_YEARS_LINK,
-    'Present Her': DEFAULT_ALBUM_LINK,
-    'Our Journey': DEFAULT_ALBUM_LINK
+    'Present Her': PRESENT_HER_LINK,
+    'Our Journey': OUR_PICTURES_LINK
   };
 
   const currentCategory = categories.find(c => c.value === activeTab)!;
