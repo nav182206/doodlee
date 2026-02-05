@@ -60,13 +60,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-soft font-inter selection:bg-rose-200">
+    <div className="flex flex-col md:flex-row min-h-[100dvh] bg-gradient-to-br from-[#fff5f5] to-[#f3f0ff] font-inter selection:bg-rose-200 overflow-hidden">
       <Navigation 
         activeView={activeView} 
         setView={setActiveView} 
       />
 
-      <main className="flex-grow flex flex-col items-center justify-start p-4 md:p-10 lg:p-16 overflow-y-auto h-screen custom-scrollbar relative">
+      <main className="flex-grow flex flex-col items-center justify-start p-4 md:p-10 lg:p-16 overflow-y-auto h-[100dvh] custom-scrollbar relative pb-24 md:pb-10">
         <div className="w-full max-w-7xl animate-in fade-in zoom-in duration-500">
           {renderView()}
         </div>
@@ -74,22 +74,22 @@ const App: React.FC = () => {
 
       {/* Celebration Toast */}
       {toast && (
-        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[300] bg-gray-900/90 backdrop-blur-md text-white px-8 py-4 rounded-full font-bold text-sm shadow-2xl animate-in slide-in-from-top-4 duration-300 flex items-center gap-3">
-          <span className="text-xl">✨</span>
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[300] bg-gray-900/90 backdrop-blur-md text-white px-6 py-3 rounded-full font-bold text-xs shadow-2xl animate-in slide-in-from-top-4 duration-300 flex items-center gap-2 whitespace-nowrap">
+          <span className="text-lg">✨</span>
           {toast}
         </div>
       )}
 
       {/* Floating Decor */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
-        {[...Array(10)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div 
             key={i}
             className="absolute text-rose-200 opacity-10 animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              fontSize: `${Math.random() * 40 + 20}px`,
+              fontSize: `${Math.random() * 30 + 15}px`,
               animationDelay: `${Math.random() * 5}s`
             }}
           >
@@ -99,7 +99,7 @@ const App: React.FC = () => {
       </div>
 
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #fecdd3; border-radius: 10px; }
       `}</style>

@@ -41,74 +41,66 @@ Truly connected soul of Sweeta 😘`;
   }, [personalLetter]);
 
   return (
-    <div className="max-w-5xl mx-auto px-6 space-y-20 pb-40">
-      {/* Aurora Header */}
-      <div className="text-center space-y-8 animate-in fade-in slide-in-from-top-10 duration-1000">
-        <div className="relative inline-block">
-          <div className="absolute -inset-4 bg-gradient-to-r from-teal-500/20 via-purple-500/20 to-pink-500/20 blur-xl animate-pulse"></div>
-          <div className="relative inline-block p-3 px-8 rounded-full bg-slate-900/80 backdrop-blur-md border border-teal-500/30">
-            <span className="text-[11px] font-black uppercase tracking-[0.6em] text-teal-300">Written in the Aurora</span>
-          </div>
+    <div className="max-w-3xl mx-auto px-4 space-y-12 pb-24 md:pb-40">
+      {/* Royal Header */}
+      <div className="text-center space-y-4 animate-in fade-in slide-in-from-top-10 duration-1000">
+        <div className="inline-block p-2 px-6 rounded-full bg-slate-900 border border-amber-500/30">
+          <span className="text-[9px] font-black uppercase tracking-[0.4em] text-amber-400">Personal Letter</span>
         </div>
-        <h2 className="text-6xl md:text-9xl font-serif-elegant font-bold text-slate-900 italic tracking-tighter">
-          My <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-600 not-italic">JANU</span> ⭐
+        <h2 className="text-4xl md:text-8xl font-serif-elegant font-bold text-slate-900 italic tracking-tighter">
+          My <span className="text-amber-600 not-italic">JANU</span> ⭐
         </h2>
       </div>
 
-      {/* Midnight Letter Container */}
+      {/* Royal Velvet Container */}
       <div className="relative group">
         {/* Glow Layer */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-teal-500/30 to-purple-600/30 rounded-[4rem] blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+        <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 via-rose-500/20 to-amber-500/20 rounded-[2.5rem] blur-xl opacity-50 transition duration-1000"></div>
         
         {/* Main Body */}
-        <div className="relative z-10 bg-slate-950 rounded-[4rem] overflow-hidden shadow-2xl border border-white/10">
-          {/* Paper Texture Overlay */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
-          
-          {/* Animated Stars */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(50)].map((_, i) => (
+        <div className="relative z-10 bg-[#0f172a] rounded-[2.5rem] overflow-hidden shadow-2xl border border-amber-500/20">
+          {/* Subtle Golden Dust */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+            {[...Array(30)].map((_, i) => (
               <div 
                 key={i}
-                className="absolute bg-white rounded-full animate-twinkle"
+                className="absolute bg-amber-400 rounded-full animate-twinkle"
                 style={{
                   width: `${Math.random() * 2 + 1}px`,
                   height: `${Math.random() * 2 + 1}px`,
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
                   animationDelay: `${Math.random() * 5}s`,
-                  opacity: Math.random() * 0.5 + 0.2
                 }}
               />
             ))}
           </div>
 
-          <div className="relative p-12 md:p-24 space-y-12">
-             {/* Floating Dino Decor */}
-             <div className="absolute top-10 right-10 text-8xl md:text-9xl opacity-10 animate-float select-none pointer-events-none">🦖</div>
+          <div className="relative p-8 md:p-20 space-y-10">
+             {/* Floating Icon Decor */}
+             <div className="absolute top-6 right-6 text-6xl opacity-10 animate-float select-none pointer-events-none">🦖</div>
              
              {/* Message Content */}
-             <div className="font-serif text-indigo-50 text-xl md:text-3xl leading-relaxed whitespace-pre-wrap selection:bg-teal-500/30 relative z-20">
+             <div className="font-serif text-amber-50 text-lg md:text-2xl leading-relaxed whitespace-pre-wrap selection:bg-amber-500/30 relative z-20">
                {personalLetter}
              </div>
 
              {/* Closing Section */}
-             <div className="pt-20 border-t border-white/10 flex flex-col md:flex-row items-center md:items-end justify-between gap-12">
-                <div className="text-center md:text-left space-y-4">
-                  <p className="font-cursive text-6xl md:text-7xl text-teal-400 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
-                    With all my heart,
+             <div className="pt-12 border-t border-amber-500/10 flex flex-col items-center text-center gap-8">
+                <div className="space-y-2">
+                  <p className="font-cursive text-4xl md:text-6xl text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+                    Always Yours,
                   </p>
-                  <p className="text-white/30 font-black uppercase tracking-[0.8em] text-xs">Naveen & Sweeta 🧿</p>
+                  <p className="text-white/20 font-black uppercase tracking-[0.6em] text-[8px] md:text-[10px]">Soul of Sweeta 🧿</p>
                 </div>
 
-                {/* Cyber Seal */}
+                {/* Wax Seal Stamp */}
                 <div className="relative group/seal">
-                   <div className="absolute -inset-4 bg-teal-500/20 rounded-full blur-xl group-hover/seal:animate-ping"></div>
-                   <div className="w-28 h-28 bg-gradient-to-br from-teal-500 to-indigo-600 rounded-full flex items-center justify-center text-5xl shadow-2xl border-4 border-white/20 rotate-12 transition-transform group-hover/seal:scale-110 group-hover/seal:rotate-0 duration-500 cursor-pointer">
-                      ✨
+                   <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-amber-600 to-amber-800 rounded-full flex items-center justify-center text-3xl md:text-4xl shadow-2xl border-2 border-amber-400/50 rotate-12 transition-transform duration-500">
+                      🧿
                    </div>
-                   <div className="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-black p-1 px-3 rounded-full border-2 border-slate-950 uppercase tracking-tighter">
-                      Soulbound
+                   <div className="absolute -top-1 -right-1 bg-rose-600 text-white text-[8px] font-black p-1 px-2 rounded-full border border-slate-950 uppercase">
+                      Pure
                    </div>
                 </div>
              </div>
@@ -117,25 +109,20 @@ Truly connected soul of Sweeta 😘`;
       </div>
 
       {/* Footer Quote */}
-      <div className="text-center space-y-4 pt-10">
-        <div className="flex items-center justify-center gap-4 text-teal-500/20">
-          <div className="h-px w-16 bg-current"></div>
-          <span className="text-2xl">🧿</span>
-          <div className="h-px w-16 bg-current"></div>
-        </div>
-        <p className="text-[11px] font-black uppercase tracking-[1em] text-slate-400">Till the world disappears</p>
+      <div className="text-center pt-4">
+        <p className="text-[9px] font-black uppercase tracking-[0.8em] text-slate-400">Stay happiest smile hard 🧿</p>
       </div>
 
       <style>{`
         @keyframes twinkle {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.3); }
+          0%, 100% { opacity: 0.1; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(1.4); }
         }
         @keyframes float {
           0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
+          50% { transform: translateY(-15px) rotate(3deg); }
         }
-        .animate-twinkle { animation: twinkle 3s ease-in-out infinite; }
+        .animate-twinkle { animation: twinkle 4s ease-in-out infinite; }
         .animate-float { animation: float 6s ease-in-out infinite; }
         .font-cursive { font-family: 'Dancing Script', cursive; }
       `}</style>
