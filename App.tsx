@@ -41,6 +41,7 @@ const App: React.FC = () => {
   }
 
   const renderView = () => {
+    // Immediate render with faster transitions
     switch (activeView) {
       case 'home':
         return <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />;
@@ -66,8 +67,9 @@ const App: React.FC = () => {
         setView={setActiveView} 
       />
 
+      {/* Speed Optimization: Reduced duration and simpler animations */}
       <main className="flex-grow flex flex-col items-center justify-start p-4 md:p-10 lg:p-16 overflow-y-auto h-[100dvh] custom-scrollbar relative pb-24 md:pb-10">
-        <div className="w-full max-w-7xl animate-in fade-in zoom-in duration-500">
+        <div className="w-full max-w-7xl animate-in fade-in duration-300">
           {renderView()}
         </div>
       </main>
@@ -80,12 +82,12 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* Floating Decor */}
+      {/* Optimized Background Decor - fewer items for better speed */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
-        {[...Array(8)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <div 
             key={i}
-            className="absolute text-rose-200 opacity-10 animate-float"
+            className="absolute text-rose-200 opacity-5 animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
