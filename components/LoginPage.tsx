@@ -9,74 +9,85 @@ const LoginPage: React.FC<LoginPageProps> = ({ onUnlock }) => {
   const [key, setKey] = useState('');
   const [error, setError] = useState(false);
   const [shake, setShake] = useState(false);
+  const [isDecrypting, setIsDecrypting] = useState(false);
 
-  // Quick auto-submit when 4 digits are entered
+  // The Secret Code - Hidden from user
+  const SECRET_CODE = '1999';
+
   useEffect(() => {
     if (key.length === 4) {
-      if (key === '1999') {
-        onUnlock();
+      if (key === SECRET_CODE) {
+        setIsDecrypting(true);
+        const timer = setTimeout(() => {
+          onUnlock();
+        }, 600);
+        return () => clearTimeout(timer);
       } else {
         setError(true);
         setShake(true);
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           setShake(false);
           setKey('');
+          setError(false);
         }, 500);
+        return () => clearTimeout(timer);
       }
     }
   }, [key, onUnlock]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (key === '1999') {
+    if (key === SECRET_CODE) {
       onUnlock();
     } else {
       setError(true);
       setShake(true);
-      setTimeout(() => setShake(false), 500);
-      setKey('');
+      setTimeout(() => {
+        setShake(false);
+        setError(false);
+        setKey('');
+      }, 500);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#020617]">
-      {/* Immersive Tech Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 via-transparent to-transparent"></div>
-        
-        {/* Glowing Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-[30%] h-[30%] bg-blue-500/10 rounded-full blur-[100px] animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[30%] h-[30%] bg-indigo-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#020617] overflow-hidden">
+      {/* Immersive Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-blue-600/5 rounded-full blur-[150px] animate-pulse"></div>
       </div>
 
-      <div className={`relative w-full max-w-[400px] mx-4 transition-all duration-300 ${shake ? 'animate-shake' : ''}`}>
-        {/* Glow behind card */}
-        <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-[3rem]"></div>
+      <div className={`relative w-full max-w-[450px] mx-6 transition-all duration-500 ${isDecrypting ? 'scale-90 opacity-0 blur-xl' : 'scale-100'} ${shake ? 'animate-shake' : ''}`}>
+        {/* Glow Layer */}
+        <div className="absolute inset-[-30px] bg-blue-500/10 blur-[80px] rounded-full"></div>
 
-        <div className="relative bg-slate-950 border border-white/10 rounded-[3rem] p-10 md:p-12 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="relative bg-slate-950/80 backdrop-blur-3xl border border-white/10 rounded-[3.5rem] p-10 md:p-14 shadow-[0_0_100px_rgba(0,0,0,0.8)] overflow-hidden">
           
-          {/* Scanning Line */}
+          {/* Scanning Effect */}
           <div className="absolute inset-0 pointer-events-none z-20">
-            <div className="w-full h-1 bg-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.8)] absolute top-0 animate-scan"></div>
+            <div className="w-full h-1 bg-gradient-to-r from-transparent via-blue-500/40 to-transparent absolute top-0 animate-scan"></div>
           </div>
 
-          <div className="relative z-10 flex flex-col items-center gap-8">
-            {/* The Vault Interface */}
+          <div className="relative z-10 flex flex-col items-center gap-10">
+            {/* Archive Heart Icon */}
             <div className="relative">
-              <div className={`w-24 h-24 rounded-full bg-slate-900 border-2 flex items-center justify-center transition-all duration-300 ${error ? 'border-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.4)]' : 'border-blue-500/50 shadow-[0_0_20px_rgba(59,130,246,0.3)]'}`}>
-                <div className={`w-16 h-16 rounded-full border-2 border-dashed transition-all duration-700 ${key.length > 0 ? 'animate-spin-slow border-blue-400' : 'border-slate-800'}`}></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                   <svg className={`w-8 h-8 transition-colors ${error ? 'text-rose-500' : 'text-blue-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                   </svg>
-                </div>
+              <div className={`w-24 h-24 rounded-[2rem] bg-slate-900 border-2 flex items-center justify-center transition-all duration-300 ${error ? 'border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.4)]' : 'border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)]'}`}>
+                {isDecrypting ? (
+                  <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <div className={`text-4xl transition-transform duration-500 ${key.length > 0 ? 'scale-110' : 'scale-100 opacity-60'}`}>
+                    {error ? '🔒' : '💙'}
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="text-center space-y-2">
-              <h1 className="text-2xl font-serif-elegant font-bold text-white tracking-widest uppercase">Secret Vault</h1>
-              <p className="text-slate-500 text-[9px] font-black tracking-[0.4em] uppercase">Private Encryption Active</p>
+            <div className="text-center space-y-4">
+              <h1 className="text-2xl md:text-3xl font-serif-elegant font-bold text-white tracking-[0.2em] italic">The Heart’s Archive</h1>
+              <p className="text-slate-400 text-xs md:text-sm font-light italic leading-relaxed max-w-[280px] mx-auto opacity-80">
+                "Every memory you made, tucked away in a place only we can go. Step inside and stay a while."
+              </p>
             </div>
 
             <form onSubmit={handleSubmit} className="w-full space-y-8">
@@ -90,51 +101,49 @@ const LoginPage: React.FC<LoginPageProps> = ({ onUnlock }) => {
                     setKey(val);
                     setError(false);
                   }}
-                  placeholder="0000"
-                  className={`w-full bg-slate-900/50 border-2 rounded-2xl py-5 text-center text-4xl font-mono tracking-[0.6em] text-blue-400 focus:outline-none transition-all ${
-                    error ? 'border-rose-500/50 text-rose-500' : 'border-slate-800 focus:border-blue-500/50'
+                  placeholder="----"
+                  className={`w-full bg-slate-900/40 border-2 rounded-2xl py-6 text-center text-5xl font-mono tracking-[0.4em] text-blue-400 focus:outline-none transition-all placeholder:text-slate-800 selection:bg-blue-500/20 ${
+                    error ? 'border-rose-500/50 text-rose-500' : 'border-slate-800/50 focus:border-blue-500/40 shadow-inner'
                   }`}
                   autoFocus
                 />
                 
-                {/* Indicator Dots */}
-                <div className="flex justify-center gap-3 mt-4">
+                {/* Auth Progress Indicators */}
+                <div className="flex justify-center gap-4 mt-8">
                   {[...Array(4)].map((_, i) => (
-                    <div key={i} className={`w-2 h-2 rounded-full transition-all duration-200 ${key.length > i ? 'bg-blue-500 scale-125' : 'bg-slate-800'}`}></div>
+                    <div 
+                      key={i} 
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        key.length > i 
+                          ? 'w-8 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)]' 
+                          : 'w-2 bg-slate-800'
+                      }`}
+                    ></div>
                   ))}
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-blue-900/20 active:scale-95 transition-all"
-              >
-                Access Denied? No, Proceed
-              </button>
+              <div className="pt-2 text-center">
+                 <p className="text-slate-700 text-[8px] font-black uppercase tracking-[0.5em] italic">Encrypted Session Enabled</p>
+              </div>
             </form>
-            
-            <p className="text-[8px] text-slate-600 font-bold uppercase tracking-[0.3em] italic">System Security: Level 9 Protection</p>
           </div>
         </div>
       </div>
       
       <style>{`
         @keyframes scan {
-          0% { top: -10%; }
-          100% { top: 110%; }
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          0% { top: -10%; opacity: 0; }
+          10%, 90% { opacity: 1; }
+          100% { top: 110%; opacity: 0; }
         }
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-10px); }
-          75% { transform: translateX(10px); }
+          25% { transform: translateX(-12px); }
+          75% { transform: translateX(12px); }
         }
-        .animate-scan { animation: scan 4s linear infinite; }
-        .animate-spin-slow { animation: spin-slow 12s linear infinite; }
-        .animate-shake { animation: shake 0.3s ease-in-out; }
+        .animate-scan { animation: scan 4s ease-in-out infinite; }
+        .animate-shake { animation: shake 0.35s cubic-bezier(.36,.07,.19,.97) both; }
       `}</style>
     </div>
   );

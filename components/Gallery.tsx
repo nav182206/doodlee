@@ -32,43 +32,37 @@ const Gallery: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<PhotoCategory>('Childhood');
 
-  // Specific links provided by the user
-  const CHILDHOOD_LINK = 'https://photos.app.goo.gl/EJ8nUY5TWj65YWKT9';
-  const GROWING_YEARS_LINK = 'https://photos.app.goo.gl/w8S7NMv45PMx1UybA';
-  const OUR_PICTURES_LINK = 'https://photos.app.goo.gl/6nSxf6zhD9PrYUFa9';
-  const PRESENT_HER_LINK = 'https://photos.app.goo.gl/B5qCHo52AnLtgU776';
-
   const albumLinks: Record<PhotoCategory, string> = {
-    'Childhood': CHILDHOOD_LINK,
-    'Growing Years': GROWING_YEARS_LINK,
-    'Present Her': PRESENT_HER_LINK,
-    'Our Journey': OUR_PICTURES_LINK
+    'Childhood': 'https://photos.app.goo.gl/EJ8nUY5TWj65YWKT9',
+    'Growing Years': 'https://photos.app.goo.gl/w8S7NMv45PMx1UybA',
+    'Present Her': 'https://photos.app.goo.gl/B5qCHo52AnLtgU776',
+    'Our Journey': 'https://photos.app.goo.gl/6nSxf6zhD9PrYUFa9'
   };
 
   const currentCategory = categories.find(c => c.value === activeTab)!;
   const currentLink = albumLinks[activeTab];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 md:px-6 relative pb-40">
-      {/* Header */}
-      <div className="text-center mb-10 md:mb-14 space-y-6">
-        <div className="space-y-4">
-          <h2 className="text-4xl md:text-6xl font-serif-elegant font-bold text-gray-900 tracking-tight">Our Story Albums</h2>
-          <p className="text-gray-500 font-light max-w-lg mx-auto italic text-base md:text-lg">
-            "I've organized our memories into special collections for you to explore."
+    <div className="max-w-4xl mx-auto px-4 relative pb-40">
+      {/* Clean Header */}
+      <div className="text-center mb-10 space-y-6">
+        <div className="space-y-3">
+          <h2 className="text-4xl md:text-6xl font-serif-elegant font-bold text-slate-900 tracking-tight">Our Memories</h2>
+          <p className="text-slate-500 font-light max-w-md mx-auto italic text-sm md:text-base">
+            "Every photo holds a special place in my heart."
           </p>
         </div>
         
-        {/* snappier tab navigation */}
+        {/* Snappy Tab Switches */}
         <div className="flex flex-wrap justify-center gap-2">
           {categories.map(cat => (
             <button
               key={cat.value}
               onClick={() => setActiveTab(cat.value)}
-              className={`px-4 py-2.5 rounded-2xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-200 border-2 ${
+              className={`px-5 py-3 rounded-2xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-150 border-2 ${
                 activeTab === cat.value 
-                ? 'bg-blue-600 text-white border-blue-600 shadow-xl scale-105' 
-                : 'bg-white text-blue-400 border-transparent hover:border-blue-100 hover:text-blue-500'
+                ? 'bg-blue-600 text-white border-blue-600 shadow-md scale-105' 
+                : 'bg-white text-slate-400 border-slate-100 hover:border-blue-100 hover:text-blue-600'
               }`}
             >
               {cat.label}
@@ -77,19 +71,17 @@ const Gallery: React.FC = () => {
         </div>
       </div>
 
-      {/* Album Invitation Card - Cleaned from side decorations */}
-      <div className="relative group animate-in zoom-in duration-300">
-        <div className="absolute inset-0 bg-blue-100/30 blur-[60px] -z-10 rounded-full"></div>
-        
-        <div className="bg-white/90 backdrop-blur-xl border-4 border-white rounded-[3rem] md:rounded-[4rem] p-8 md:p-16 shadow-2xl text-center space-y-8 transition-shadow duration-300">
+      {/* Main Album Card - Fast Render */}
+      <div key={activeTab} className="relative animate-in zoom-in-95 duration-200">
+        <div className="bg-white border-2 border-slate-50 rounded-[2.5rem] p-10 md:p-16 shadow-lg text-center space-y-8">
           <div className="space-y-4">
             <div className="text-7xl md:text-8xl mb-2">
               {currentCategory.emoji}
             </div>
-            <h3 className="text-3xl md:text-5xl font-serif-elegant font-bold text-gray-800 italic">
+            <h3 className="text-3xl md:text-4xl font-serif-elegant font-bold text-slate-800 italic">
               {currentCategory.label}
             </h3>
-            <p className="text-gray-500 text-base md:text-lg font-light italic max-w-xl mx-auto leading-relaxed">
+            <p className="text-slate-500 text-sm md:text-base font-light italic max-w-sm mx-auto leading-relaxed">
               "{currentCategory.description}"
             </p>
           </div>
@@ -99,19 +91,14 @@ const Gallery: React.FC = () => {
               href={currentLink} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="group relative w-full md:w-auto px-10 py-5 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs md:text-sm shadow-xl hover:bg-blue-700 hover:-translate-y-1 active:scale-95 transition-all flex items-center justify-center gap-3 overflow-hidden"
+              className="w-full md:w-auto px-12 py-5 bg-blue-600 text-white rounded-full font-black uppercase tracking-widest text-xs shadow-lg hover:bg-blue-700 hover:-translate-y-0.5 active:scale-95 transition-all flex items-center justify-center gap-3"
             >
-              <span className="relative z-10">Open Photo Album</span>
-              <svg className="w-4 h-4 md:w-5 md:h-5 z-10 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span>Explore Album</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </a>
-            
-            <div className="flex items-center gap-4 text-slate-300">
-              <div className="h-px w-8 bg-slate-100"></div>
-              <p className="text-[8px] md:text-[10px] uppercase tracking-[0.4em] font-black">Private Album</p>
-              <div className="h-px w-8 bg-slate-100"></div>
-            </div>
+            <p className="text-[9px] text-slate-300 font-bold uppercase tracking-[0.4em]">Personal Collection Link</p>
           </div>
         </div>
       </div>

@@ -12,28 +12,31 @@ import BubblesGame from './components/BubblesGame.tsx';
 type ActiveView = 'home' | 'music' | 'gallery' | 'message' | 'dreams' | 'bubbles';
 
 const App: React.FC = () => {
-  const [isAuthorized, setIsAuthorized] = useState(() => localStorage.getItem('sweeta_auth') === 'true');
+  const [isAuthorized, setIsAuthorized] = useState(() => {
+    // Unique key for storage to avoid conflicts
+    return localStorage.getItem('janu_birthday_auth_v1') === 'true';
+  });
   const [activeView, setActiveView] = useState<ActiveView>('home');
   const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
-    localStorage.setItem('sweeta_auth', isAuthorized.toString());
+    localStorage.setItem('janu_birthday_auth_v1', isAuthorized.toString());
   }, [isAuthorized]);
 
   const showToast = (msg: string) => {
     setToast(msg);
-    setTimeout(() => setToast(null), 3000);
+    setTimeout(() => setToast(null), 2000);
   };
 
   const handleUnlock = () => {
     setIsAuthorized(true);
     setActiveView('home');
-    showToast("Happy Birthday, Sweeta! 💙");
+    showToast("Access Granted 💙");
   };
 
   const handleLogout = () => {
     setIsAuthorized(false);
-    localStorage.removeItem('sweeta_auth');
+    localStorage.removeItem('janu_birthday_auth_v1');
   };
 
   if (!isAuthorized) {
@@ -41,69 +44,44 @@ const App: React.FC = () => {
   }
 
   const renderView = () => {
-    // Immediate render with faster transitions
-    switch (activeView) {
-      case 'home':
-        return <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />;
-      case 'music':
-        return <Music />;
-      case 'gallery':
-        return <Gallery />;
-      case 'message':
-        return <EmotionalMessage />;
-      case 'dreams':
-        return <DreamBoard />;
-      case 'bubbles':
-        return <BubblesGame />;
-      default:
-        return <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />;
-    }
+    // Direct mapping for fastest render
+    const views = {
+      home: <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />,
+      music: <Music />,
+      gallery: <Gallery />,
+      message: <EmotionalMessage />,
+      dreams: <DreamBoard />,
+      bubbles: <BubblesGame />
+    };
+    return views[activeView] || views.home;
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-[100dvh] bg-gradient-to-br from-[#fff5f5] to-[#f3f0ff] font-inter selection:bg-rose-200 overflow-hidden">
+    <div className="flex flex-col md:flex-row min-h-[100dvh] bg-[#f8fafc] font-inter selection:bg-blue-100 overflow-hidden">
       <Navigation 
         activeView={activeView} 
         setView={setActiveView} 
+        onLogout={handleLogout}
       />
 
-      {/* Speed Optimization: Reduced duration and simpler animations */}
-      <main className="flex-grow flex flex-col items-center justify-start p-4 md:p-10 lg:p-16 overflow-y-auto h-[100dvh] custom-scrollbar relative pb-24 md:pb-10">
-        <div className="w-full max-w-7xl animate-in fade-in duration-300">
+      <main className="flex-grow flex flex-col items-center justify-start p-4 md:p-8 lg:p-10 overflow-y-auto h-[100dvh] custom-scrollbar relative pb-24 md:pb-10">
+        {/* Rapid Content Transitions */}
+        <div key={activeView} className="w-full max-w-7xl animate-in fade-in duration-200">
           {renderView()}
         </div>
       </main>
 
-      {/* Celebration Toast */}
+      {/* Lightning-fast toast feedback */}
       {toast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[300] bg-gray-900/90 backdrop-blur-md text-white px-6 py-3 rounded-full font-bold text-xs shadow-2xl animate-in slide-in-from-top-4 duration-300 flex items-center gap-2 whitespace-nowrap">
-          <span className="text-lg">✨</span>
+        <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[300] bg-slate-900/95 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-bold text-[10px] uppercase tracking-widest shadow-2xl animate-in slide-in-from-top-4 duration-150">
           {toast}
         </div>
       )}
 
-      {/* Optimized Background Decor - fewer items for better speed */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
-        {[...Array(5)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute text-rose-200 opacity-5 animate-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              fontSize: `${Math.random() * 30 + 15}px`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
-          >
-            ❤️
-          </div>
-        ))}
-      </div>
-
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #fecdd3; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
       `}</style>
     </div>
   );
