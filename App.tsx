@@ -7,8 +7,9 @@ import EmotionalMessage from './components/EmotionalMessage.tsx';
 import LoginPage from './components/LoginPage.tsx';
 import Navigation from './components/Navigation.tsx';
 import DreamBoard from './components/DreamBoard.tsx';
+import BubblesGame from './components/BubblesGame.tsx';
 
-type ActiveView = 'home' | 'music' | 'gallery' | 'message' | 'dreams';
+type ActiveView = 'home' | 'music' | 'gallery' | 'message' | 'dreams' | 'bubbles';
 
 const App: React.FC = () => {
   const [isAuthorized, setIsAuthorized] = useState(() => localStorage.getItem('sweeta_auth') === 'true');
@@ -51,6 +52,8 @@ const App: React.FC = () => {
         return <EmotionalMessage />;
       case 'dreams':
         return <DreamBoard />;
+      case 'bubbles':
+        return <BubblesGame />;
       default:
         return <Hero onStart={() => setActiveView('gallery')} onLogout={handleLogout} />;
     }

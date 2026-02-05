@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-type View = 'home' | 'music' | 'gallery' | 'message' | 'dreams';
+type View = 'home' | 'music' | 'gallery' | 'message' | 'dreams' | 'bubbles';
 
 interface NavProps {
   activeView: View;
@@ -14,6 +14,7 @@ const Navigation: React.FC<NavProps> = ({ activeView, setView }) => {
     { id: 'gallery', label: 'Pictures', icon: '📸' },
     { id: 'music', label: 'Music', icon: '🎵' },
     { id: 'dreams', label: 'Collection', icon: '✨' },
+    { id: 'bubbles', label: 'Bubbles', icon: '🫧' },
     { id: 'message', label: 'Letters', icon: '✉️' },
   ];
 

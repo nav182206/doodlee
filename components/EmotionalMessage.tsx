@@ -2,86 +2,143 @@
 import React, { useState, useEffect } from 'react';
 
 const EmotionalMessage: React.FC = () => {
-  const [personalLetter, setPersonalLetter] = useState(() => {
-    return localStorage.getItem('sweeta_personal_letter') || 
-      "My Dearest Sweeta,\n\n(Click the edit button to write your heart out here...)\n\nHappy Birthday to the most beautiful person I know. You make every day feel like a dream, and I am so lucky to have you in my life.\n\nForever yours.";
-  });
-  
-  const [isEditing, setIsEditing] = useState(false);
+  const DEFAULT_MESSAGE = `Happiest birthday, Janu ⭐
+I hope this year brings you endless laughter, pure love, and... a little bit of Naveen in it too 🦖
 
-  // Save the personal letter whenever it changes
+I honestly don't know where to begin or end. So just listen.
+
+You're one of the sweetest humans I've ever known..
+The girl who understood me, who stood by me when no one else did.
+I'm emotionally very connected to you.
+You're like a daughter to me.
+
+No matter what happens, I'll always take care of you.
+You're worth a lifetime 🫀
+
+I'll always support you, cheer for you, and want you to win-just like a true friend should.
+
+You'll never see me against you, no matter what.
+I love you from the core chala chalaa chalaaa chalaa
+And never think you're alone.
+I'm here for you-24×7 Always. 🫀
+
+Once again happiest birthday 🫧🦖🥹
+Stay happiest smile hard till world disappears 🧿
+
+Hope you liked my small app, if you did not like no issue, 
+I'll make new one
+
+Signing off
+Naveen
+Truly connected soul of Sweeta 😘`;
+
+  const [personalLetter] = useState(() => {
+    return localStorage.getItem('sweeta_personal_letter') || DEFAULT_MESSAGE;
+  });
+
   useEffect(() => {
     localStorage.setItem('sweeta_personal_letter', personalLetter);
   }, [personalLetter]);
 
   return (
-    <div className="max-w-4xl mx-auto px-6 space-y-20 pb-40">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <div className="inline-block p-3 px-6 rounded-full bg-rose-50 border border-rose-100 mb-2">
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-rose-500">From My Heart to Yours</span>
+    <div className="max-w-5xl mx-auto px-6 space-y-20 pb-40">
+      {/* Aurora Header */}
+      <div className="text-center space-y-8 animate-in fade-in slide-in-from-top-10 duration-1000">
+        <div className="relative inline-block">
+          <div className="absolute -inset-4 bg-gradient-to-r from-teal-500/20 via-purple-500/20 to-pink-500/20 blur-xl animate-pulse"></div>
+          <div className="relative inline-block p-3 px-8 rounded-full bg-slate-900/80 backdrop-blur-md border border-teal-500/30">
+            <span className="text-[11px] font-black uppercase tracking-[0.6em] text-teal-300">Written in the Aurora</span>
+          </div>
         </div>
-        <h2 className="text-5xl md:text-7xl font-serif-elegant font-bold text-gray-900 italic tracking-tight">The Love Letter</h2>
+        <h2 className="text-6xl md:text-9xl font-serif-elegant font-bold text-slate-900 italic tracking-tighter">
+          My <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-600 not-italic">JANU</span> ⭐
+        </h2>
       </div>
 
-      {/* Main Letter Content */}
+      {/* Midnight Letter Container */}
       <div className="relative group">
-        {/* Background Decor */}
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100/30 to-blue-100/30 blur-3xl -z-10 rounded-[4rem]"></div>
+        {/* Glow Layer */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-teal-500/30 to-purple-600/30 rounded-[4rem] blur-2xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
         
-        <div className="bg-white rounded-[2rem] md:rounded-[4rem] shadow-2xl border-t-[12px] border-rose-400 overflow-hidden relative">
+        {/* Main Body */}
+        <div className="relative z-10 bg-slate-950 rounded-[4rem] overflow-hidden shadow-2xl border border-white/10">
+          {/* Paper Texture Overlay */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
           
-          {/* Letter Toolbar */}
-          <div className="absolute top-8 right-8 z-10">
-            <button 
-              onClick={() => setIsEditing(!isEditing)}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-xs uppercase tracking-widest transition-all ${
-                isEditing ? 'bg-rose-500 text-white shadow-lg' : 'bg-gray-50 text-gray-400 hover:bg-rose-50 hover:text-rose-500'
-              }`}
-            >
-              <span>{isEditing ? 'Save Letter' : 'Edit My Letter'}</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Letter Body */}
-          <div className="p-12 md:p-24 pt-28">
-            <div className="absolute top-12 left-12 opacity-10 pointer-events-none">
-                <svg className="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </div>
-
-            {isEditing ? (
-              <textarea
-                value={personalLetter}
-                onChange={(e) => setPersonalLetter(e.target.value)}
-                className="w-full min-h-[400px] bg-transparent font-serif text-xl md:text-2xl leading-relaxed text-gray-800 outline-none resize-none border-b-2 border-dashed border-rose-100 focus:border-rose-300 transition-colors"
-                placeholder="Write your heart out here..."
+          {/* Animated Stars */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(50)].map((_, i) => (
+              <div 
+                key={i}
+                className="absolute bg-white rounded-full animate-twinkle"
+                style={{
+                  width: `${Math.random() * 2 + 1}px`,
+                  height: `${Math.random() * 2 + 1}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  opacity: Math.random() * 0.5 + 0.2
+                }}
               />
-            ) : (
-              <div className="space-y-12">
-                <div className="font-serif-elegant italic text-xl md:text-3xl leading-relaxed text-gray-800 whitespace-pre-wrap">
-                  {personalLetter}
-                </div>
-                <div className="pt-12 border-t border-rose-50">
-                  <p className="font-cursive text-4xl text-rose-500 font-bold">Forever Yours,</p>
-                  <p className="text-gray-400 font-bold uppercase tracking-[0.4em] text-[10px] mt-4">Written with Love 💙</p>
-                </div>
-              </div>
-            )}
+            ))}
           </div>
 
-          {/* Decorative Wax Seal */}
-          <div className="absolute bottom-12 right-12 w-20 h-20 bg-rose-600 rounded-full flex items-center justify-center text-white shadow-xl rotate-12 border-4 border-rose-700/50">
-            <span className="text-2xl">❦</span>
+          <div className="relative p-12 md:p-24 space-y-12">
+             {/* Floating Dino Decor */}
+             <div className="absolute top-10 right-10 text-8xl md:text-9xl opacity-10 animate-float select-none pointer-events-none">🦖</div>
+             
+             {/* Message Content */}
+             <div className="font-serif text-indigo-50 text-xl md:text-3xl leading-relaxed whitespace-pre-wrap selection:bg-teal-500/30 relative z-20">
+               {personalLetter}
+             </div>
+
+             {/* Closing Section */}
+             <div className="pt-20 border-t border-white/10 flex flex-col md:flex-row items-center md:items-end justify-between gap-12">
+                <div className="text-center md:text-left space-y-4">
+                  <p className="font-cursive text-6xl md:text-7xl text-teal-400 drop-shadow-[0_0_15px_rgba(45,212,191,0.4)]">
+                    With all my heart,
+                  </p>
+                  <p className="text-white/30 font-black uppercase tracking-[0.8em] text-xs">Naveen & Sweeta 🧿</p>
+                </div>
+
+                {/* Cyber Seal */}
+                <div className="relative group/seal">
+                   <div className="absolute -inset-4 bg-teal-500/20 rounded-full blur-xl group-hover/seal:animate-ping"></div>
+                   <div className="w-28 h-28 bg-gradient-to-br from-teal-500 to-indigo-600 rounded-full flex items-center justify-center text-5xl shadow-2xl border-4 border-white/20 rotate-12 transition-transform group-hover/seal:scale-110 group-hover/seal:rotate-0 duration-500 cursor-pointer">
+                      ✨
+                   </div>
+                   <div className="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-black p-1 px-3 rounded-full border-2 border-slate-950 uppercase tracking-tighter">
+                      Soulbound
+                   </div>
+                </div>
+             </div>
           </div>
         </div>
       </div>
 
-      <div className="text-center opacity-30 pt-10">
-        <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400">Birthday Blossom Special Edition 💙</p>
+      {/* Footer Quote */}
+      <div className="text-center space-y-4 pt-10">
+        <div className="flex items-center justify-center gap-4 text-teal-500/20">
+          <div className="h-px w-16 bg-current"></div>
+          <span className="text-2xl">🧿</span>
+          <div className="h-px w-16 bg-current"></div>
+        </div>
+        <p className="text-[11px] font-black uppercase tracking-[1em] text-slate-400">Till the world disappears</p>
       </div>
+
+      <style>{`
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.2; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.3); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        .animate-twinkle { animation: twinkle 3s ease-in-out infinite; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .font-cursive { font-family: 'Dancing Script', cursive; }
+      `}</style>
     </div>
   );
 };
